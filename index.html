@@ -1,23 +1,146 @@
 ---
-layout: default
+layout: post
 ---
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+<img src="gadfly_points.png" alt="gadfly" width="480" height="300">
+{% highlight julia %}
+w,r = glscreen()
+img = GLVisualizeBackend(w)
+p = plot(x=rand(100), y=rand(100))
+draw(img, p)
+r()
+{% endhighlight %}
 
-<div class="home">
 
-  <h1 class="page-heading">Posts</h1>
+<img src="gadfly_sin.png" alt="gadfly" width="480" height="300">
+{% highlight julia %}
+w,r = glscreen()
+img = GLVisualizeBackend(w)
+p = plot([sin, cos], 0, 25)
+draw(img, p)
+r()
+{% endhighlight %}
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+<img src="gadfly_bars.png" alt="gadfly" width="480" height="300">
+{% highlight julia %}
+w,r = glscreen()
+img = GLVisualizeBackend(w)
+p = plot(dataset("car", "SLID"), x="Wages", color="Language", Geom.histogram)
+draw(img, p)
+r()
+{% endhighlight %}
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+<video  width="480" height="300" autoplay loop>
+  <source src="linesegments.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+</video>
 
-</div>
+{% highlight julia %}
+x = HyperSphere(Point3f0(0), 1f0)
+positions       = decompose(Point3f0, x)
+indices         = rand(range(Cuint(0), Cuint(length(positions))), 1000)
+color           = map(x->RGBA{Float32}(x, 0.9f0), colormap("Blues", length(positions)))
+color2          = map(x->RGBA{Float32}(x, 1f0), colormap("Blues", length(positions)))
+view(visualize(positions, :linesegment, thickness=0.5f0, color=color, indices=indices))
+view(visualize((Sphere{Float32}(Point3f0(0.0), 1f0), positions), color=color2, scale=Vec3f0(0.05)))
+r()
+{% endhighlight %}
+
+<video  width="480" height="300" autoplay loop>
+  <source src="bouncy.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+{% highlight julia %}
+const border = 50f0
+function bounce_particles(pos_velo, _)
+    positions, velocity = pos_velo
+    dt = 0.1f0
+    for i=1:length(positions)
+        pos,velo = positions[i], velocity[i]
+        positions[i] = Point2f0(pos[1], pos[2] + velo*dt)
+        if pos[2] <= border
+            velocity[i] = abs(velo)
+        else
+            velocity[i] = velo - 9.8*dt
+        end
+    end
+    positions, velocity
+end
+start_position = (rand(Point2f0, n)*700f0) + border
+position_velocity = foldp(bounce_particles,
+    (start_position, zeros(Float32, n)),
+    bounce(1:10)
+)
+circle = HyperSphere(Point2f0(0), 20f0)
+vis = visualize((circle, map(first, position_velocity)),
+    image=loadasset("doge.png"),
+    stroke_width=1f0,
+    stroke_color=RGBA{Float32}(0.91,0.91,0.91,1)
+)
+view(vis, method=:orthographic_pixel)
+{% endhighlight %}
+
+<video  width="480" height="300" autoplay loop>
+  <source src="bars.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+{% highlight julia %}
+b = rand(10f0:0.01f0:200f0, 10)
+interpolate(a,b,t) =
+    [ae+((be-ae)*t) for (ae, be) in zip(a,b)]
+interpolated = foldp((b,b,b), bounce(0f0:0.05f0:10f0)) do v0_v1_ip, td
+    v0,v1,ip = v0_v1_ip
+    pol = td%1
+    if isapprox(pol,0.0)
+        v0 = v1
+        v1 = map(x-> rand(linspace(-50f0, 60f0, 100)), v0)
+    end
+    v0,v1,interpolate(v0,v1,pol)
+end
+b_sig = map(last, interpolated)
+a = visualize((RECTANGLE, b_sig), xyrange=((0,400),),intensity=b_sig, color_norm=Vec2f0(-40,200), color=Texture(GLVisualize.default(Vector{RGBA})))
+view(a, method=:orthographic_pixel)
+{% endhighlight %}
+
+<video  width="480" height="300" autoplay loop>
+  <source src="cats.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+{% highlight julia %}
+cat    = load("cat.obj")
+sphere = GLNormalMesh(Sphere{Float32}(Vec3f0(0), 1f0), 12)
+
+function scale_gen(v0, nv)
+	l = length(v0)
+	@inbounds for i=1:l
+		v0[i] = Vec3f0(1,1,sin((nv*l)/i))/2
+	end
+	v0
+end
+i = 1
+function color_gen(v0, nv)
+	l = length(v0)
+	@inbounds for x=1:l
+		v0[x] = RGBA{U8}(x/l,(cos(nv)+1)/2,(sin(x/l/3)+1)/2.,1.)
+	end
+
+	v0
+end
+const t      = Signal(0f0)
+ps           = sphere.vertices
+scale_start  = Vec3f0[Vec3f0(1,1,rand()) for i=1:length(ps)]
+scale_signal = foldp(scale_gen, scale_start, t)
+scale        = scale_signal
+
+color_signal = foldp(color_gen, zeros(RGBA{U8}, length(ps)), t)
+color        = color_signal
+rotation     = -sphere.normals
+a = visualize((cat, ps), scale=scale, color=color, rotation=rotation)
+view(a)
+{% endhighlight %}
