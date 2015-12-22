@@ -142,7 +142,7 @@ position_velocity = foldp(bounce_particles,
 )
 circle = HyperSphere(Point2f0(0), 20f0)
 vis = visualize((circle, map(first, position_velocity)),
-    image=loadasset("doge.png"),
+    image=load("doge.png"),
     stroke_width=1f0,
     stroke_color=RGBA{Float32}(0.91,0.91,0.91,1)
 )
