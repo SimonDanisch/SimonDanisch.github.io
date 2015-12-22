@@ -85,12 +85,9 @@ t            = bounce(0:0.1:10)
 ps           = sphere.vertices
 scale_start  = Vec3f0[Vec3f0(1,1,rand()) for i=1:length(ps)]
 scale_signal = foldp(scale_gen, scale_start, t)
-scale        = scale_signal
-
 color_signal = foldp(color_gen, zeros(RGBA{U8}, length(ps)), t)
 color        = color_signal
-rotation     = -sphere.normals
-a = visualize((cat, ps), scale=scale, color=color, rotation=rotation)
+a = visualize((cat, ps), scale=scale_signal, color=color_signal, rotation=-sphere.normals)
 view(a)
 {% endhighlight %}
 
