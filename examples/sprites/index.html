@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Simon Danisch">
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+
+	<title>Sprites - GLVisualize Documentation</title>
+
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <link href="../../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../..">GLVisualize Documentation</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../..">Introduction</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../introduction/">Introduction</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Sprites</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../text/">Text</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../lines/">Lines</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../surfaces/">Surfaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../volumes/">Volumes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../interactive/">Interactive</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../compose/">Compose</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">API</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                <li >
+                    <a rel="next" href="../particles/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../text/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://github.com/JuliaGL/GLVisualize.jl">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#arrows">Arrows</a></li>
+        
+    
+        <li class="main "><a href="#billboard">Billboard</a></li>
+        
+    
+        <li class="main "><a href="#bouncy">Bouncy</a></li>
+        
+    
+        <li class="main "><a href="#distancefield">Distancefield</a></li>
+        
+    
+        <li class="main "><a href="#image-texture-atlas">Image Texture Atlas</a></li>
+        
+    
+        <li class="main "><a href="#letitsnow">Letitsnow</a></li>
+        
+    
+        <li class="main "><a href="#moving-bars">Moving Bars</a></li>
+        
+    
+        <li class="main "><a href="#moving-circles">Moving Circles</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="arrows">Arrows</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/arrows.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive
+
+ window = glscreen()
+ timesignal = bounce(linspace(0,1,360))
+N = 20
+# generate some rotations
+function rotation_func(t)
+    t = (t == 0f0 ? 0.01f0 : t)
+    Vec2f0[(sin(x/t), cos(y/(t/2f0))) for x=1:N, y=1:N]
+end
+
+# us Reactive.map to transform the timesignal signal into the arrow flow
+flow = map(rotation_func, timesignal)
+
+# create a visualisation
+vis = visualize(flow, ranges=(50:800,50:500))
+view(vis, window, camera=:orthographic_pixel)
+
+ renderloop(window)
+
+</code></pre>
+
+<h1 id="billboard">Billboard</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/billboard.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, GLAbstraction, ModernGL, FileIO, Reactive
+
+window = glscreen()
+timesignal = loop(linspace(0f0, 1f0, 360))
+
+let
+rotation_angle = const_lift(*, timesignal, 2f0*pi)
+rotation = map(rotationmatrix_z, rotation_angle)
+
+const b = Point3f0[(rand(Point3f0)*2)-1 for i=1:64]
+
+sprites = visualize(
+    (SimpleRectangle(0f0,0f0,0.5f0, 0.5f0), b),
+    billboard=true, image=loadasset(&quot;doge.png&quot;),
+    model=rotation
+)
+
+view(sprites, window, camera=:perspective)
+end
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="bouncy">Bouncy</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/bouncy.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, GLAbstraction
+using Colors, Reactive, FileIO
+ window = glscreen()
+ timesignal = bounce(linspace(0,1,50))
+n = 30
+const border = 50f0
+function bounce_particles(pos_velo, _)
+    positions, velocity = pos_velo
+    dt = 0.1f0
+    @inbounds for i=1:length(positions)
+        pos,velo = positions[i], velocity[i]
+        positions[i] = Point2f0(pos[1], pos[2] + velo*dt)
+        if pos[2] &lt;= border
+            velocity[i] = abs(velo)
+        else
+            velocity[i] = velo - 9.8*dt
+        end
+    end
+    positions, velocity
+end
+start_position = (rand(Point2f0, n)*700f0) + border
+position_velocity = foldp(bounce_particles,
+    (start_position, zeros(Float32, n)),
+    timesignal
+)
+circle = HyperSphere(Point2f0(0), 40f0)
+vis = visualize((circle, map(first, position_velocity)),
+    image=loadasset(&quot;doge.png&quot;),
+    stroke_width=3f0,
+    stroke_color=RGBA{Float32}(0.91,0.91,0.91,1)
+)
+view(vis, window, camera=:orthographic_pixel)
+
+ renderloop(window)
+
+</code></pre>
+
+<h1 id="distancefield">Distancefield</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/distancefield.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors
+
+ window = glscreen()
+ timesignal = loop(linspace(0f0, 1f0, 360))
+const n1 = 30
+positions = rand(Point2f0, n1).*1000f0
+
+
+xy_data(x,y,i) = Float32(sin(y/2f0/i)+cos(i*x))
+const n2 = 128
+# a distance field is a Matrix{Float32} array, which encodes the distance to
+# the border of a filled shape. Positive numbers are inside the shape, 0 is the
+# border and negative number are outside.
+# this is basically how we render text, since you can do anti aliasing very
+# nicely when you know the distance to the border.
+# For text we use one big texture and specify uv coordinates into this big texture
+# for every particle. How this is done can be seen in example
+# partices/sprites/image_texture_atlas.jl
+
+dfield = map(timesignal) do t
+    tpi = (2pi*t)+0.2
+    Float32[xy_data(x,y,tpi)+0.5f0 for x=1:n2, y=1:n2]
+end
+Base.rand(m::MersenneTwister, ::Type{U8}) = U8(rand(m, UInt8))
+Base.rand{T &lt;: Colorant}(m::MersenneTwister, ::Type{T}) = T(ntuple(x-&gt;rand(m, eltype(T)), Val{length(T)})...)
+
+distfield = visualize((DISTANCEFIELD, positions),
+    stroke_width=4f0,
+    scale=Vec2f0(120),
+    stroke_color=rand(RGBA{Float32}, n1),
+    color=rand(RGBA{Float32}, n1),
+    distancefield=dfield
+)
+view(distfield, window)
+
+
+ renderloop(window)
+
+</code></pre>
+
+<h1 id="image-texture-atlas">Image Texture Atlas</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/image_texture_atlas.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors
+
+ window = glscreen()
+ timesignal = loop(linspace(0f0, 1f0, 360))
+
+# this is just one big texture
+texture_atlas = loadasset(&quot;doge.png&quot;)
+w, h = size(texture_atlas)
+const n = 40
+xrange = linspace(0, w, n)
+yrange = linspace(0, h, n)
+scale  = Vec2f0(step(xrange), step(yrange))
+
+# position in a grid
+positions = map(timesignal) do t
+    vec(Point2f0[(x+(sin(t*2*pi)*400),y+(sin(0+y*t*0.01)*200)+(cos(t*2*pi)*200)) for x=xrange, y=yrange])
+end
+
+# uv coordinates are normalized coordinates into the texture_atlas
+# they need the start point and the width of each rectangle (sprites are rectangles)
+# so you will not actually index with the circle primitive, but rather with
+# with the quad of the particle (the rest of the quad is transparent)
+# note, that for uv coordinates, the origin is on the top left corner
+uv_offset_width = vec(Vec4f0[(x,y,x+(1/n),y+(1/n)) for x=linspace(0, 1, n), y=linspace(1, 0, n)])
+
+# when position and scale are defined, We can leave the middle and radius of
+# Circle undefined, so just passing the type.
+distfield = visualize((Circle, positions),
+    scale=scale,
+    stroke_width=1f0,
+    uv_offset_width=uv_offset_width,
+    stroke_color = RGBA{Float32}(0.9,0.9,0.9,1.0),
+    image=texture_atlas
+)
+view(distfield, window)
+
+
+ renderloop(window)
+
+</code></pre>
+
+<h1 id="letitsnow">Letitsnow</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/letitsnow.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors
+
+ window = glscreen()
+ timesignal = bounce(0f0:20f0)
+
+const S = -5f0
+const W = 10f0
+const N = 1000
+const ps = (rand(Point3f0, N)*W)+S
+const velocity = rand(Vec3f0, N)*0.01f0
+const gravity  = Vec3f0(0,0,-0.04)
+
+upper_bound(x) = x&gt;S+W
+lower_bound(x) = x&lt;S
+function letitsnow(position, t)
+    @inbounds for i=1:length(ps)
+        pos = Vec(position[i])
+        p = Point3f0(pos+gravity+velocity[i])
+        if any(upper_bound, p) || any(lower_bound, p)
+            position[i] = Point3f0(rand(linspace(S,S+W, 1000)),rand(linspace(S,S+W, 1000)), S+W)
+            velocity[i] = Vec3f0(0)
+        else
+            position[i] = p
+        end
+    end
+    position
+end
+particles       = foldp(letitsnow, ps, timesignal)
+rotation_angle  = bounce(0f0:1f0:360f0)
+rotation        = map(rotationmatrix_z, map(deg2rad, rotation_angle))
+color_ramp      = colormap(&quot;Blues&quot;, 50)
+colors          = RGBA{Float32}[color_ramp[rand(1:50)] for i=1:N]
+
+snowflakes = visualize(
+    ('❄', particles),
+    color=colors,
+    scale=Vec2f0(0.6), billboard=true, model=rotation
+)
+
+view(snowflakes, window, camera=:perspective)
+
+
+ renderloop(window)
+
+</code></pre>
+
+<h1 id="moving-bars">Moving Bars</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/moving_bars.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, FileIO
+using GLAbstraction, Colors, Reactive
+window = glscreen()
+timesignal = bounce(0f0:0.1:1f0)
+
+primitive = SimpleRectangle(0f0,-0.5f0,1f0,1f0)
+positions = rand(10f0:0.01f0:200f0, 10)
+
+function interpolate(a, positions, t)
+    [ae+((be-ae)*t) for (ae, be) in zip(a,positions)]
+end
+t = const_lift(*, timesignal, 10f0)
+interpolated = foldp((positions,positions,positions), t) do v0_v1_ip, td
+    v0,v1,ip = v0_v1_ip
+    pol = td%1
+    if isapprox(pol, 0.0)
+        v0 = v1
+        v1 = map(x-&gt; rand(linspace(-50f0, 60f0, 100)), v0)
+    end
+    v0, v1, interpolate(v0, v1, pol)
+end
+b_sig = map(last, interpolated)
+bars = visualize(
+    (RECTANGLE, b_sig),
+    intensity=b_sig,
+    ranges=linspace(0,600, 10),
+    color_norm=Vec2f0(-40,200),
+    color_map=GLVisualize.default(Vector{RGBA})
+)
+view(bars, window, camera=:orthographic_pixel)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="moving-circles">Moving Circles</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/moving_circles.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, GLAbstraction
+using Colors, Reactive, FileIO
+
+
+window = glscreen()
+timesignal = bounce(linspace(0f0,1f0,360))
+t          = const_lift(*, timesignal, 10f0)
+radius     = 200f0
+w,h        = widths(window)
+middle     = Point2f0(w/2, h/2)
+circle_pos = Point2f0[(Point2f0(sin(i), cos(i))*radius)+middle for i=linspace(0, 2pi, 20)]
+rotation   = Vec2f0[normalize(Vec2f0(middle)-Vec2f0(p)) for p in circle_pos]
+scales     = map(t) do t
+    Vec2f0[Vec2f0(30, ((sin(i+t)+1)/2)*60) for i=linspace(0, 2pi, 20)]
+end
+
+circles = visualize(
+    (CIRCLE, circle_pos),
+    rotation=rotation, scale=scales,
+)
+
+view(circles, window)
+
+renderloop(window)
+
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+        <script src="../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

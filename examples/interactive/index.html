@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Simon Danisch">
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+
+	<title>Interactive - GLVisualize Documentation</title>
+
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <link href="../../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../..">GLVisualize Documentation</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../..">Introduction</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../introduction/">Introduction</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../sprites/">Sprites</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../text/">Text</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../lines/">Lines</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../surfaces/">Surfaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../volumes/">Volumes</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Interactive</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../compose/">Compose</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">API</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                <li >
+                    <a rel="next" href="../volumes/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../compose/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://github.com/JuliaGL/GLVisualize.jl">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#color-edit">Color Edit</a></li>
+        
+    
+        <li class="main "><a href="#graph-editing">Graph Editing</a></li>
+        
+    
+        <li class="main "><a href="#image-processing">Image Processing</a></li>
+        
+    
+        <li class="main "><a href="#mario-game">Mario Game</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="color-edit">Color Edit</h1>
+<pre><code class="Julia"># using GLVisualize, Colors, ModernGL, GeometryTypes, GLAbstraction, GLWindow, FileIO
+# w = glscreen()
+# v, colortex = vizzedit(map(RGBA{U8}, colormap(&quot;blues&quot;, 7)), w)
+
+# function screen(robj, w)
+#   bb = boundingbox(robj)
+#   area = const_lift(bb) do b
+#       m = Vec{2,Int}(b.minimum)
+#       SimpleRectangle{Int}(m..., (Vec{2,Int}(b.maximum+30)-m)...)
+#   end
+#   s = Screen(w, area=area)
+#   transformation(robj, translationmatrix(Vec3f0(15,15,0)))
+#   view(robj, s, camera=:fixed_pixel)
+#   s
+# end
+
+# screen(v, w)
+# view(visualize(rand(Float32, 28,92), color=colortex, color_norm=Vec2f0(0,1)))
+# renderloop()
+
+</code></pre>
+
+<h1 id="graph-editing">Graph Editing</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/graph_editing.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GeometryTypes, GLVisualize, GLAbstraction, Reactive, GLWindow, GLFW
+
+window = glscreen()
+
+n = 50
+n_connections = 100
+a = rand(Point2f0, n)*1000f0
+points = visualize((Circle(Point2f0(0), 15f0), a))
+
+const point_robj = points.children[] # temporary way of getting the render object. Shouldn't stay like this
+ # best way to get the gpu object. One could also start by creating a gpu array oneself.
+ # this is a bit tricky, since not there are three different types.
+ # for points and lines you need a GLBuffer. e.g gpu_position = GLBuffer(rand(Point2f0, 50)*1000f0)
+const gpu_position = point_robj[:position]
+# now the lines and points share the same gpu object
+# for linesegments, you can pass indices, which needs to be of some 32bit int type
+lines  = visualize(gpu_position, :linesegment, indices=rand(1:n, n_connections))
+
+# current tuple of renderobject id and index into the gpu array
+const m2id = GLWindow.mouse2id(window)
+isoverpoint = const_lift(is_same_id, m2id, point_robj)
+
+# inputs are a dict, materialize gets the keys out of it (equivalent to mouseposition = window.inputs[:mouseposition])
+@materialize mouse_buttons_pressed, mouseposition = window.inputs
+
+# single left mousekey pressed (while no other mouse key is pressed)
+key_pressed = const_lift(GLAbstraction.singlepressed, mouse_buttons_pressed, GLFW.MOUSE_BUTTON_LEFT)
+# dragg while key_pressed. Drag only starts if isoverpoint is true
+mousedragg  = GLAbstraction.dragged(mouseposition, key_pressed, isoverpoint)
+
+# use mousedrag and mouseid + index to actually change the gpu array with the positions
+preserve(foldp((value(m2id)..., Point2f0(0)), mousedragg) do v0, dragg
+    if dragg == Vec2f0(0) # if drag just started. Not the best way, maybe dragged should return a tuple of (draggvalue, started)
+        id, index = value(m2id)
+        if id==point_robj.id &amp;&amp; length(gpu_position) &gt;= index
+            p0 = gpu_position[index]
+        else
+            p0 = v0[3]
+        end
+    else
+        id, index, p0 = v0
+        if id==point_robj.id &amp;&amp; length(gpu_position) &gt;= index
+            gpu_position[index] = Point2f0(p0) + Point2f0(dragg)
+        end
+
+    end
+    return id, index, p0
+end)
+# view it!
+view(lines, window, camera=:fixed_pixel)
+view(points, window, camera=:fixed_pixel)
+
+ renderloop(window)
+
+</code></pre>
+
+<h1 id="image-processing">Image Processing</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/image_processing.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using Images, Colors, GeometryTypes
+using Reactive, FileIO, GLVisualize
+using GLAbstraction, GeometryTypes, GLWindow
+
+window = glscreen()
+
+# loadasset loads data from the GLVisualize asset folder and is defined as
+# FileIO.load(assetpath(name))
+doge = loadasset(&quot;doge.png&quot;)
+# Convert to RGBA{Float32}. Float for filtering and 32 because it fits the GPU better
+img = map(RGBA{Float32}, doge)
+# create a slider that goes from 1-20 in 0.1 steps
+slider_s, slider = vizzedit(1f0:0.1f0:20f0, window)
+
+# performant conversion to RGBAU8, implemted with a functor
+# in 0.5 anonymous functions offer the same speed, so this wouldn't be needed
+immutable ClampRGBAU8 end
+call(::ClampRGBAU8, x) = RGBA{U8}(clamp(comp1(x), 0,1), clamp(comp2(x), 0,1), clamp(comp3(x), 0,1), clamp(alpha(x), 0,1))
+
+&quot;&quot;&quot;
+Applies a gaussian filter to `img` and converts it to RGBA{U8}
+&quot;&quot;&quot;
+function myfilter(img, sigma)
+    img = Images.imfilter_gaussian(img, [sigma, sigma])
+    map(ClampRGBAU8(), img).data
+end
+
+
+startvalue = myfilter(img, value(slider_s))
+# Use Reactive.async_map, to filter the image without blocking the main process
+task, imgsig = async_map(myfilter, startvalue, Signal(img), slider_s)
+# visualize the image signal
+image_renderable = visualize(imgsig, model=translationmatrix(Vec3f0(50,100,0)))
+view(image_renderable)
+
+vec2i(a,b,x...) = Vec{2,Int}(round(Int, a), round(Int, b))
+vec2i(vec::Vec) = vec2i(vec...)
+&quot;&quot;&quot;
+creates a rectangle around `robj`
+&quot;&quot;&quot;
+function screen(robj)
+    bb = value(boundingbox(robj))
+    m  = vec2i(minimum(bb))
+    area = SimpleRectangle{Float32}(0,0, ((vec2i(maximum(bb))-m)+30)...)
+
+    view(visualize((area, [Point2f0(0)]),
+        color=RGBA{Float32}(0,0,0,0), stroke_color=RGBA{Float32}(0,0,0,0.7),
+        stroke_width=2f0),
+        camera=:fixed_pixel
+    )
+    robj.children[][:model] = translationmatrix(Vec3f0(15,15,0)-minimum(bb))
+    view(robj, camera=:fixed_pixel)
+end
+screen(slider)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="mario-game">Mario Game</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/mario_game.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GeometryTypes, GLVisualize, GLAbstraction, ImageMagick
+using FileIO, ColorTypes, Reactive
+
+ window = glscreen()
+
+type Mario{T}
+    x           ::T
+    y           ::T
+    vx          ::T
+    vy          ::T
+    direction   ::Symbol
+end
+
+
+
+gravity(dt, mario) = (mario.vy = (mario.y &gt; 0.0 ? mario.vy - (dt/4.0) : 0.0); mario)
+
+function physics(dt, mario)
+    mario.x = mario.x + dt * mario.vx
+    mario.y = max(0.0, mario.y + dt * mario.vy)
+    mario
+end
+
+function walk(keys, mario)
+    mario.vx = keys[1]
+    mario.direction = keys[1] &lt; 0.0 ? :left : keys[1] &gt; 0.0 ? :right : mario.direction
+    mario
+end
+
+function jump(keys, mario)
+    if keys[2] &gt; 0.0 &amp;&amp; mario.vy == 0.0
+        mario.vy = 6.0
+    end
+    mario
+end
+
+function update(dt, keys, mario)
+    mario = gravity(dt, mario)
+    mario = jump(keys,  mario)
+    mario = walk(keys,  mario)
+    mario = physics(dt, mario)
+    mario
+end
+
+
+
+mario2model(mario) = translationmatrix(Vec3f0(mario.x, mario.y, 0f0))*scalematrix(Vec3f0(5f0))
+
+const mario_images = Dict()
+
+
+function play(x::Vector)
+    const_lift(getindex, x, loop(1:length(x)))
+end
+
+function read_sequence(path)
+    if isdir(path)
+        return map(load, sort(map(x-&gt;joinpath(path, x), readdir(path))))
+    else
+        return fill(load(path), 1)
+    end
+end
+
+for verb in [&quot;jump&quot;, &quot;walk&quot;, &quot;stand&quot;], dir in [&quot;left&quot;, &quot;right&quot;]
+    pic = dir
+    if verb != &quot;walk&quot; # not a sequemce
+        pic *= &quot;.png&quot;
+    end
+    path = assetpath(&quot;mario&quot;, verb, pic)
+    sequence = read_sequence(path)
+    gif = map(img-&gt;map(RGBA{U8}, img), sequence)
+    mario_images[verb*dir] = play(gif)
+end
+function mario2image(mario, images=mario_images)
+    verb = mario.y &gt; 0.0 ? &quot;jump&quot; : mario.vx != 0.0 ? &quot;walk&quot; : &quot;stand&quot;
+    mario_images[verb*string(mario.direction)].value # is a signal of pictures itself (animation), so .value samples the current image
+end
+function arrows2vec(direction)
+    direction == :up    &amp;&amp; return Vec2f0( 0.0,  1.0)
+    direction == :down  &amp;&amp; return Vec2f0( 0.0, -1.0)
+    direction == :right &amp;&amp; return Vec2f0( 3.0,  0.0)
+    direction == :left  &amp;&amp; return Vec2f0(-3.0,  0.0)
+    Vec2f0(0.0)
+end
+
+# Put everything together
+arrows          = sampleon(bounce(1:10), window.inputs[:arrow_navigation])
+keys            = const_lift(arrows2vec, arrows)
+mario_signal    = const_lift(update, 8.0, keys, Mario(0.0, 0.0, 0.0, 0.0, :right))
+image_stream    = const_lift(mario2image, mario_signal)
+modelmatrix     = const_lift(mario2model, mario_signal)
+
+mario = visualize(image_stream, model=modelmatrix)
+
+view(mario, window, camera=:fixed_pixel)
+
+ renderloop(window)
+
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+        <script src="../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

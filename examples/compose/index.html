@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Simon Danisch">
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+
+	<title>Compose - GLVisualize Documentation</title>
+
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <link href="../../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../..">GLVisualize Documentation</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../..">Introduction</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../introduction/">Introduction</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../sprites/">Sprites</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../text/">Text</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../lines/">Lines</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../surfaces/">Surfaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../volumes/">Volumes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../interactive/">Interactive</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Compose</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">API</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                <li >
+                    <a rel="next" href="../interactive/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../../api/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://github.com/JuliaGL/GLVisualize.jl">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#barplot">Barplot</a></li>
+        
+    
+        <li class="main "><a href="#catgraph">Catgraph</a></li>
+        
+    
+        <li class="main "><a href="#compose">Compose</a></li>
+        
+    
+        <li class="main "><a href="#errorbar">Errorbar</a></li>
+        
+    
+        <li class="main "><a href="#regression">Regression</a></li>
+        
+    
+        <li class="main "><a href="#singraph">Singraph</a></li>
+        
+    
+        <li class="main "><a href="#sin-dataframe">Sin Dataframe</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="barplot">Barplot</h1>
+<p><img alt="Barplot" src="../../../media/barplot.png" /></p>
+<pre><code class="Julia">using Colors, GLVisualize
+using GLVisualize.ComposeBackend, Gadfly, DataFrames, RDatasets
+
+ window = glscreen()
+ composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+p = plot(dataset(&quot;car&quot;, &quot;SLID&quot;), x=&quot;Wages&quot;, color=&quot;Language&quot;, Geom.histogram)
+
+draw(composebackend, p)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="catgraph">Catgraph</h1>
+<p><img alt="Catgraph" src="../../../media/catgraph.png" /></p>
+<pre><code class="Julia">using Colors, GLVisualize
+using Gadfly, GLVisualize.ComposeBackend
+
+ window = glscreen()
+ composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+
+p = plot(x=1:100, y=2.^rand(100),
+     Scale.y_sqrt, Geom.point, Geom.smooth,
+     Guide.xlabel(&quot;Stimulus&quot;), Guide.ylabel(&quot;Response&quot;), Guide.title(&quot;Cat Training&quot;))
+
+draw(composebackend, p)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="compose">Compose</h1>
+<p><img alt="Compose" src="../../../media/compose.png" /></p>
+<pre><code class="Julia">using Colors, GLVisualize
+using GLVisualize.ComposeBackend, Compose
+
+ window = glscreen()
+ composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+p = compose(context(0.0mm, 0.0mm, 200mm, 200mm),
+    rectangle([0.25, 0.5, 0.75], [0.25, 0.5, 0.75], [0.1], [0.1]),
+    fill([LCHab(92, 10, 77), LCHab(68, 74, 192), LCHab(78, 84, 29)]),
+    stroke([LCHab(5, 0, 77),LCHab(5, 77, 77),LCHab(50, 0, 8)]),
+    (context(), circle(), fill(&quot;bisque&quot;)),
+    (context(), rectangle(), fill(&quot;tomato&quot;))
+)
+draw(composebackend, p)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="errorbar">Errorbar</h1>
+<p><img alt="Errorbar" src="../../../media/errorbar.png" /></p>
+<pre><code class="Julia">using GLVisualize.ComposeBackend, Gadfly, Distributions
+using Colors, GLVisualize
+
+ window = glscreen()
+ composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+sds = [1, 1/2, 1/4, 1/8, 1/16, 1/32]
+n = 10
+ys = [mean(rand(Distributions.Normal(0, sd), n)) for sd in sds]
+ymins = ys .- (1.96 * sds / sqrt(n))
+ymaxs = ys .+ (1.96 * sds / sqrt(n))
+
+p = plot(x=1:length(sds), y=ys, ymin=ymins, ymax=ymaxs,
+     Geom.point, Geom.errorbar)
+
+draw(composebackend, p)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="regression">Regression</h1>
+<p><img alt="Regression" src="../../../media/regression.png" /></p>
+<pre><code class="Julia">using GLVisualize.ComposeBackend, Gadfly
+using Colors, GLVisualize
+
+ window = glscreen()
+ composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+
+using Distributions
+x1 = rand(40)
+y1 = 4.*x1 .+ 2 .+randn(40)
+x2 = rand(40)
+y2 = -6.*x2 .+ 3 .+ randn(40)
+x  = [x1;x2]
+y  = [y1;y2]
+col = [fill(&quot;Slope 4&quot;,40); fill(&quot;Slope -6&quot;,40)]
+p = plot(x=x,y=y,colour=col, Geom.point, Geom.smooth(method=:lm))
+
+draw(composebackend, p)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="singraph">Singraph</h1>
+<p><img alt="Singraph" src="../../../media/singraph.png" /></p>
+<pre><code class="Julia">using Colors, GLVisualize
+using Gadfly, GLVisualize.ComposeBackend
+
+ window = glscreen()
+ composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+p = plot([sin, cos], 0, 25)
+
+draw(composebackend, p)
+renderloop(window)
+
+</code></pre>
+
+<h1 id="sin-dataframe">Sin Dataframe</h1>
+<p><img alt="Sin Dataframe" src="../../../media/sin_dataframe.png" /></p>
+<pre><code class="Julia">using Colors, GLVisualize
+using DataFrames, Gadfly, GLVisualize.ComposeBackend
+
+ window = glscreen()
+ composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+xs = 0:0.1:20
+
+df_cos = DataFrame(
+    x=xs,
+    y=cos(xs),
+    ymin=cos(xs) .- 0.5,
+    ymax=cos(xs) .+ 0.5,
+    f=&quot;cos&quot;
+)
+df_sin = DataFrame(
+    x=xs,
+    y=sin(xs),
+    ymin=sin(xs) .- 0.5,
+    ymax=sin(xs) .+ 0.5,
+    f=&quot;sin&quot;
+)
+df = vcat(df_cos, df_sin)
+p = plot(df, x=:x, y=:y, ymin=:ymin, ymax=:ymax, color=:f, Geom.line, Geom.ribbon)
+
+
+draw(composebackend, p)
+
+renderloop(window)
+
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+        <script src="../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
