@@ -172,22 +172,16 @@
         <li class="main "><a href="#is_hovering">is_hovering</a></li>
         
     
-        <li class="main "><a href="#clicked">clicked</a></li>
+        <li class="main "><a href="#_default">_default</a></li>
         
     
         <li class="main "><a href="#sprites">sprites</a></li>
         
     
-        <li class="main "><a href="#cubecamera">cubecamera</a></li>
-        
-    
-        <li class="main "><a href="#_default">_default</a></li>
-        
-    
-        <li class="main "><a href="#meshparticle">meshparticle</a></li>
-        
-    
         <li class="main "><a href="#projection_switch">projection_switch</a></li>
+        
+    
+        <li class="main "><a href="#cubecamera">cubecamera</a></li>
         
     
         <li class="main "><a href="#grid">Grid</a></li>
@@ -199,7 +193,13 @@
         <li class="main "><a href="#visualize">visualize</a></li>
         
     
+        <li class="main "><a href="#clicked">clicked</a></li>
+        
+    
         <li class="main "><a href="#play">play</a></li>
+        
+    
+        <li class="main "><a href="#meshparticle">meshparticle</a></li>
         
     
     </ul>
@@ -210,18 +210,6 @@
 <h2 id="is_hovering"><code>is_hovering</code></h2>
 <p>args: <code>(::RenderObject, ::Screen)</code></p>
 <p>Returns a boolean signal indicating if the mouse hovers over <code>robj</code></p>
-<hr />
-<h2 id="clicked"><code>clicked</code></h2>
-<p>args: <code>(::RenderObject, ::MouseButton, ::Screen)</code></p>
-<p>Returns two signals, one boolean signal if clicked over <code>robj</code> and another one that consists of the object clicked on and another argument indicating that it's the first click</p>
-<hr />
-<h2 id="sprites"><code>sprites</code></h2>
-<p>args: <code>(::Any, ::Any, ::Any)</code></p>
-<p>Main assemble functions for sprite particles. Sprites are anything like distance fields, images and simple geometries</p>
-<hr />
-<h2 id="cubecamera"><code>cubecamera</code></h2>
-<p>args: <code>(::Any)</code></p>
-<p>Creates a camera which is steered by a cube for <code>window</code>.</p>
 <hr />
 <h2 id="_default"><code>_default</code></h2>
 <p>args: <code>(::Union{Signal G}, ::Style, ::Dict)</code></p>
@@ -281,13 +269,17 @@ float function(float x) {
 <p>args: <code>(::Union{Signal S}, ::Style, ::Dict)</code></p>
 <p>Transforms text into a particle system of sprites, by inferring the texture coordinates in the texture atlas, widths and positions of the characters.</p>
 <hr />
-<h2 id="meshparticle"><code>meshparticle</code></h2>
+<h2 id="sprites"><code>sprites</code></h2>
 <p>args: <code>(::Any, ::Any, ::Any)</code></p>
-<p>This is the main function to assemble particles with a GLNormalMesh as a primitive</p>
+<p>Main assemble functions for sprite particles. Sprites are anything like distance fields, images and simple geometries</p>
 <hr />
 <h2 id="projection_switch"><code>projection_switch</code></h2>
 <p>args: <code>(::Any, ::Any, ::Any)</code></p>
 <p>creates a button that can switch between orthographic and perspective projection</p>
+<hr />
+<h2 id="cubecamera"><code>cubecamera</code></h2>
+<p>args: <code>(::Any)</code></p>
+<p>Creates a camera which is steered by a cube for <code>window</code>.</p>
 <hr />
 <h2 id="grid"><code>Grid</code></h2>
 <p>args: <code>(::AbstractArray, ::Tuple)</code></p>
@@ -301,6 +293,10 @@ float function(float x) {
 <p>args: <code>(::Tuple, ::Tuple)</code></p>
 <p>Creates a default visualization for any value. The defaults can be customized via the key word arguments and the style parameter. The style can change the the look completely (e.g points displayed as lines, or particles), while the key word arguments just alter the parameters of one visualization. Always returns a context, which can be displayed on a window via view(::Context, [display]).</p>
 <hr />
+<h2 id="clicked"><code>clicked</code></h2>
+<p>args: <code>(::RenderObject, ::MouseButton, ::Screen)</code></p>
+<p>Returns two signals, one boolean signal if clicked over <code>robj</code> and another one that consists of the object clicked on and another argument indicating that it's the first click</p>
+<hr />
 <h2 id="play"><code>play</code></h2>
 <p>args: <code>(::Image)</code></p>
 <p>Turns an Image into a video stream</p>
@@ -310,6 +306,10 @@ float function(float x) {
 <hr />
 <p>args: <code>(::Array, ::Any, ::Any)</code></p>
 <p>Plays a video stream from VideoIO.jl. You need to supply the image <code>buffer</code>, which will be reused for better performance.</p>
+<hr />
+<h2 id="meshparticle"><code>meshparticle</code></h2>
+<p>args: <code>(::Any, ::Any, ::Any)</code></p>
+<p>This is the main function to assemble particles with a GLNormalMesh as a primitive</p>
 <hr /></div>
         </div>
 
