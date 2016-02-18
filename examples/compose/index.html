@@ -51,7 +51,19 @@
             
             
                 <li >
-                    <a href="../..">Introduction</a>
+                    <a href="../..">Home</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">Api</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -61,19 +73,23 @@
                     <ul class="dropdown-menu">
                     
                         <li >
+                            <a href="../camera/">Camera</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Compose</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../imagelike/">Imagelike</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../interactive/">Interactive</a>
+                        </li>
+                    
+                        <li >
                             <a href="../introduction/">Introduction</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../particles/">Particles</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../sprites/">Sprites</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../text/">Text</a>
                         </li>
                     
                         <li >
@@ -81,38 +97,34 @@
                         </li>
                     
                         <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../screens/">Screens</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../sprites/">Sprites</a>
+                        </li>
+                    
+                        <li >
                             <a href="../surfaces/">Surfaces</a>
                         </li>
                     
                         <li >
-                            <a href="../meshes/">Meshes</a>
+                            <a href="../text/">Text</a>
                         </li>
                     
                         <li >
                             <a href="../volumes/">Volumes</a>
                         </li>
                     
-                        <li >
-                            <a href="../interactive/">Interactive</a>
-                        </li>
-                    
-                        <li class="active">
-                            <a href="./">Compose</a>
-                        </li>
-                    
                     </ul>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../api/">API</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -126,12 +138,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="next" href="../interactive/">
+                    <a rel="next" href="../camera/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../../api/">
+                    <a rel="prev" href="../imagelike/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -169,10 +181,10 @@
         <li class="main "><a href="#regression">Regression</a></li>
         
     
-        <li class="main "><a href="#singraph">Singraph</a></li>
+        <li class="main "><a href="#sin-dataframe">Sin Dataframe</a></li>
         
     
-        <li class="main "><a href="#sin-dataframe">Sin Dataframe</a></li>
+        <li class="main "><a href="#singraph">Singraph</a></li>
         
     
     </ul>
@@ -184,8 +196,8 @@
 <pre><code class="Julia">using Colors, GLVisualize
 using GLVisualize.ComposeBackend, Gadfly, DataFrames, RDatasets
 
- window = glscreen()
- composebackend = ComposeBackend.GLVisualizeBackend(window)
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
 
 
 p = plot(dataset(&quot;car&quot;, &quot;SLID&quot;), x=&quot;Wages&quot;, color=&quot;Language&quot;, Geom.histogram)
@@ -201,8 +213,8 @@ renderloop(window)
 <pre><code class="Julia">using Colors, GLVisualize
 using Gadfly, GLVisualize.ComposeBackend
 
- window = glscreen()
- composebackend = ComposeBackend.GLVisualizeBackend(window)
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
 
 
 
@@ -217,12 +229,11 @@ renderloop(window)
 </code></pre>
 
 <h1 id="compose">Compose</h1>
-<p><img alt="Compose" src="../../../media/compose.png" /></p>
 <pre><code class="Julia">using Colors, GLVisualize
 using GLVisualize.ComposeBackend, Compose
 
- window = glscreen()
- composebackend = ComposeBackend.GLVisualizeBackend(window)
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
 
 p = compose(context(0.0mm, 0.0mm, 200mm, 200mm),
     rectangle([0.25, 0.5, 0.75], [0.25, 0.5, 0.75], [0.1], [0.1]),
@@ -242,8 +253,8 @@ renderloop(window)
 <pre><code class="Julia">using GLVisualize.ComposeBackend, Gadfly, Distributions
 using Colors, GLVisualize
 
- window = glscreen()
- composebackend = ComposeBackend.GLVisualizeBackend(window)
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
 
 
 sds = [1, 1/2, 1/4, 1/8, 1/16, 1/32]
@@ -266,8 +277,8 @@ renderloop(window)
 <pre><code class="Julia">using GLVisualize.ComposeBackend, Gadfly
 using Colors, GLVisualize
 
- window = glscreen()
- composebackend = ComposeBackend.GLVisualizeBackend(window)
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
 
 
 
@@ -287,29 +298,13 @@ renderloop(window)
 
 </code></pre>
 
-<h1 id="singraph">Singraph</h1>
-<p><img alt="Singraph" src="../../../media/singraph.png" /></p>
-<pre><code class="Julia">using Colors, GLVisualize
-using Gadfly, GLVisualize.ComposeBackend
-
- window = glscreen()
- composebackend = ComposeBackend.GLVisualizeBackend(window)
-
-
-p = plot([sin, cos], 0, 25)
-
-draw(composebackend, p)
-renderloop(window)
-
-</code></pre>
-
 <h1 id="sin-dataframe">Sin Dataframe</h1>
 <p><img alt="Sin Dataframe" src="../../../media/sin_dataframe.png" /></p>
 <pre><code class="Julia">using Colors, GLVisualize
 using DataFrames, Gadfly, GLVisualize.ComposeBackend
 
- window = glscreen()
- composebackend = ComposeBackend.GLVisualizeBackend(window)
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
 
 
 xs = 0:0.1:20
@@ -334,6 +329,22 @@ p = plot(df, x=:x, y=:y, ymin=:ymin, ymax=:ymax, color=:f, Geom.line, Geom.ribbo
 
 draw(composebackend, p)
 
+renderloop(window)
+
+</code></pre>
+
+<h1 id="singraph">Singraph</h1>
+<p><img alt="Singraph" src="../../../media/singraph.png" /></p>
+<pre><code class="Julia">using Colors, GLVisualize
+using Gadfly, GLVisualize.ComposeBackend
+
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+p = plot([sin, cos], 0, 25)
+
+draw(composebackend, p)
 renderloop(window)
 
 </code></pre></div>

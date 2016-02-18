@@ -51,7 +51,19 @@
             
             
                 <li >
-                    <a href="../..">Introduction</a>
+                    <a href="../..">Home</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">Api</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -61,35 +73,15 @@
                     <ul class="dropdown-menu">
                     
                         <li >
-                            <a href="../introduction/">Introduction</a>
+                            <a href="../camera/">Camera</a>
                         </li>
                     
                         <li >
-                            <a href="../particles/">Particles</a>
+                            <a href="../compose/">Compose</a>
                         </li>
                     
                         <li >
-                            <a href="../sprites/">Sprites</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../text/">Text</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../lines/">Lines</a>
-                        </li>
-                    
-                        <li class="active">
-                            <a href="./">Surfaces</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../meshes/">Meshes</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../volumes/">Volumes</a>
+                            <a href="../imagelike/">Imagelike</a>
                         </li>
                     
                         <li >
@@ -97,22 +89,42 @@
                         </li>
                     
                         <li >
-                            <a href="../compose/">Compose</a>
+                            <a href="../introduction/">Introduction</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../lines/">Lines</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../screens/">Screens</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../sprites/">Sprites</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Surfaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../text/">Text</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../volumes/">Volumes</a>
                         </li>
                     
                     </ul>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../api/">API</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -126,12 +138,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="next" href="../lines/">
+                    <a rel="next" href="../sprites/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../meshes/">
+                    <a rel="prev" href="../text/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -154,7 +166,10 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#juliaset">Juliaset</a></li>
+        <li class="main active"><a href="#dirac-belt">Dirac Belt</a></li>
+        
+    
+        <li class="main "><a href="#juliaset">Juliaset</a></li>
         
     
         <li class="main "><a href="#mesh">Mesh</a></li>
@@ -167,6 +182,85 @@
 </div></div>
             <div class="col-md-9" role="main">
 
+<h1 id="dirac-belt">Dirac Belt</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/dirac_belt.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GeometryTypes, Quaternions, GLVisualize, Reactive, GLAbstraction
+
+function Quaternions.qrotation{T&lt;:Real}(axis::Quaternion{T}, theta::T)
+    ax = Vec{3,T}(axis.v1, axis.v2, axis.v3)
+    qrotation(ax, theta)
+end
+
+function Quaternions.qrotation{T&lt;:Real}(axis::Quaternion{T}, z::Quaternion{T}, theta::T)
+    q = qrotation(axis, theta)
+    q*z*conj(q)
+end
+
+function quaternion_belt_trick(timesignal)
+
+    rad1 = 1f0 # outer circle
+    rad2 = 0.2f0 # inner circle
+
+    center1 = Point2f0(rad1,rad1) # left
+    center2 = Point2f0(rad1+2f0,rad1) # right
+
+    u1234 = Quaternion(0f0,0f0,1f0,0f0) # gets rotated
+    axis  = Quaternion(0f0,0f0,0f0,1f0) # axis of qrotationdd
+    mi  = 80
+    mj  = 10
+    rxs = zeros(Float32, mi+1,mj+1)
+    rys = zeros(Float32, mi+1,mj+1)
+    rzs = zeros(Float32, mi+1,mj+1)
+
+    max_frames = 96
+    dphi = 2*pi/(max_frames-1) # include both ends
+
+    u1234_s = foldp(u1234, timesignal) do v0, _
+        qrotation(axis, v0, Float32(dphi))
+    end
+    xyz = const_lift(plot_belts, rxs, rys, rzs, u1234_s, center1, center2, rad1, rad2)
+    x = const_lift(getindex, xyz, 1)
+    y = const_lift(getindex, xyz, 2)
+    z = const_lift(getindex, xyz, 3)
+    (x,y,z)
+end
+
+function plot_belts(rxs, rys, rzs, u1234, center1, center2, rad1, rad2)
+    mi  = 80
+    mj  = 10
+    iis = 1f0:(mi+1f0)
+    rs  = rad1-((rad1-rad2)*(iis-1f0)/mi)
+    for ii=1:(mi+1)
+        jjs   = 1f0:(mj+1f0)
+        xs    = (rad2/mj)*((jjs-1f0)-(mj/2f0))
+        ys    = sqrt(rs[ii]*rs[ii]-xs.*xs)
+        theta = Float32(2*pi*(ii-1)/mi)
+
+        for jj=1:(mj+1)
+            efgh    = Quaternion(0f0, xs[jj], ys[jj], 0f0)
+            wxyz    = qrotation(efgh, u1234, theta)
+            rxs[ii,jj] = center1[1]+wxyz.v1
+            rys[ii,jj] = center1[2]+wxyz.v2
+            rzs[ii,jj] = wxyz.v3
+        end
+    end
+    rxs, rys, rzs
+end
+
+window = glscreen()
+timesignal = loop(linspace(0f0, 1f0, 360))
+
+xyz = quaternion_belt_trick(timesignal)
+view(visualize(xyz, :surface), window)
+
+renderloop(window)
+
+</code></pre>
+
 <h1 id="juliaset">Juliaset</h1>
 <video  width="600" autoplay loop>
   <source src="../../media/juliaset.webm">
@@ -175,8 +269,8 @@
 
 <pre><code class="Julia">using GLVisualize, GLAbstraction
 
- window = glscreen()
- timesignal = loop(linspace(0f0,1f0,360))
+window = glscreen()
+timesignal = loop(linspace(0f0,1f0,360))
 
 function juliadata(max_iterations, imgx, imgy)
     scalex, scaley = 4.0/imgx, 4.0/imgy
@@ -221,7 +315,7 @@ view(vis, window)
 
 end
 
- renderloop(window) # render!
+renderloop(window) # render!
 
 </code></pre>
 
@@ -234,7 +328,7 @@ end
 <pre><code class="Julia">using GLVisualize, GLAbstraction, GeometryTypes, Reactive
 
 window = glscreen()
- timesignal = loop(linspace(0f0,1f0,360))
+timesignal = loop(linspace(0f0,1f0,360))
 
 function mgrid(dim1, dim2)
     X = [i for i in dim1, j in dim2]

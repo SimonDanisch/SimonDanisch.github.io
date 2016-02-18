@@ -51,7 +51,19 @@
             
             
                 <li >
-                    <a href="../..">Introduction</a>
+                    <a href="../..">Home</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">Api</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -60,20 +72,24 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                     
+                        <li >
+                            <a href="../camera/">Camera</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../compose/">Compose</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../imagelike/">Imagelike</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../interactive/">Interactive</a>
+                        </li>
+                    
                         <li class="active">
                             <a href="./">Introduction</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../particles/">Particles</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../sprites/">Sprites</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../text/">Text</a>
                         </li>
                     
                         <li >
@@ -81,38 +97,34 @@
                         </li>
                     
                         <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../screens/">Screens</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../sprites/">Sprites</a>
+                        </li>
+                    
+                        <li >
                             <a href="../surfaces/">Surfaces</a>
                         </li>
                     
                         <li >
-                            <a href="../meshes/">Meshes</a>
+                            <a href="../text/">Text</a>
                         </li>
                     
                         <li >
                             <a href="../volumes/">Volumes</a>
                         </li>
                     
-                        <li >
-                            <a href="../interactive/">Interactive</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../compose/">Compose</a>
-                        </li>
-                    
                     </ul>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../api/">API</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -126,12 +138,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="next" href="../..">
+                    <a rel="next" href="../interactive/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../particles/">
+                    <a rel="prev" href="../lines/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -172,13 +184,35 @@ using FileIO, GeometryTypes, Reactive
 
 window = glscreen()
 timesignal = loop(linspace(0f0,1f0,360))
-
+# loadasset is defined in GLVisualize like this:
+# loadasset(path_segments...) = FileIO.load(assetpath(path_segments...))
+# where assetpath just looks up the file in the asset folder
+# You can load these (file types)[https://github.com/JuliaIO/FileIO.jl/blob/master/docs/registry.md]
 mesh            = loadasset(&quot;cat.obj&quot;)
+
+# GLAbstraction.const_lift is an alias for Reactive.map, which also works for non
+# signal arguments.
+# Reactive.map takes a function and signals like the one created via `loop` (or just Signal(x))
+# as an argument, applies the function to the signals whenever they update and
+# returns a new signal.
 rotation_angle  = const_lift(*, timesignal, 2f0*pi)
-start_rotation  = Signal(rotationmatrix_x(deg2rad(90f0))) # the cat needs some rotation on the x axis to stand straight
+# the cat needs some rotation on the x axis to stand straight
+# so we start off with a rotation of 90 degrees
+start_rotation  = Signal(rotationmatrix_x(deg2rad(90f0)))
 rotation        = map(rotationmatrix_y, rotation_angle)
 final_rotation  = map(*, start_rotation, rotation)
-robj            = visualize(mesh, model=final_rotation)
+
+# now we visualize the mesh and pass the rotation via the model keyword argument,
+# which is short for the modelmatrix, which allows you to transform the visualization
+# with any arbitrary transformation matrix
+# You can create the most common transformation matrix with `translationmatrix(::Vec3f0)`,
+# `rotationmatrix_x`/`y`/`z` (rotation around axis x,y,z), and `scalematrix(::Vec3f0)`
+
+# the visualize function always only takes one argument, plus an optional style
+# argument and then visualization dependant many keywords to customize the visualization.
+# for all parameters Signals can be used and thus the visualization becomes animated
+
+robj = visualize(mesh, model=final_rotation)
 
 
 view(robj, window)

@@ -51,7 +51,19 @@
             
             
                 <li >
-                    <a href="../..">Introduction</a>
+                    <a href="../..">Home</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">Api</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -61,35 +73,15 @@
                     <ul class="dropdown-menu">
                     
                         <li >
-                            <a href="../introduction/">Introduction</a>
+                            <a href="../camera/">Camera</a>
                         </li>
                     
                         <li >
-                            <a href="../particles/">Particles</a>
+                            <a href="../compose/">Compose</a>
                         </li>
                     
                         <li >
-                            <a href="../sprites/">Sprites</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../text/">Text</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../lines/">Lines</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../surfaces/">Surfaces</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../meshes/">Meshes</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../volumes/">Volumes</a>
+                            <a href="../imagelike/">Imagelike</a>
                         </li>
                     
                         <li class="active">
@@ -97,22 +89,42 @@
                         </li>
                     
                         <li >
-                            <a href="../compose/">Compose</a>
+                            <a href="../introduction/">Introduction</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../lines/">Lines</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../screens/">Screens</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../sprites/">Sprites</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../surfaces/">Surfaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../text/">Text</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../volumes/">Volumes</a>
                         </li>
                     
                     </ul>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../api/">API</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -126,12 +138,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="next" href="../volumes/">
+                    <a rel="next" href="../imagelike/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../compose/">
+                    <a rel="prev" href="../introduction/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -251,7 +263,7 @@ end)
 view(lines, window, camera=:fixed_pixel)
 view(points, window, camera=:fixed_pixel)
 
- renderloop(window)
+renderloop(window)
 
 </code></pre>
 
@@ -329,7 +341,7 @@ renderloop(window)
 <pre><code class="Julia">using GeometryTypes, GLVisualize, GLAbstraction, ImageMagick
 using FileIO, ColorTypes, Reactive
 
- window = glscreen()
+window = glscreen()
 
 type Mario{T}
     x           ::T
@@ -422,7 +434,7 @@ mario = visualize(image_stream, model=modelmatrix)
 
 view(mario, window, camera=:fixed_pixel)
 
- renderloop(window)
+renderloop(window)
 
 </code></pre></div>
         </div>

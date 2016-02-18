@@ -51,7 +51,19 @@
             
             
                 <li >
-                    <a href="../..">Introduction</a>
+                    <a href="../..">Home</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../api/">Api</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -61,35 +73,15 @@
                     <ul class="dropdown-menu">
                     
                         <li >
-                            <a href="../introduction/">Introduction</a>
+                            <a href="../camera/">Camera</a>
                         </li>
                     
                         <li >
-                            <a href="../particles/">Particles</a>
-                        </li>
-                    
-                        <li class="active">
-                            <a href="./">Sprites</a>
+                            <a href="../compose/">Compose</a>
                         </li>
                     
                         <li >
-                            <a href="../text/">Text</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../lines/">Lines</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../surfaces/">Surfaces</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../meshes/">Meshes</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../volumes/">Volumes</a>
+                            <a href="../imagelike/">Imagelike</a>
                         </li>
                     
                         <li >
@@ -97,22 +89,42 @@
                         </li>
                     
                         <li >
-                            <a href="../compose/">Compose</a>
+                            <a href="../introduction/">Introduction</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../lines/">Lines</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../meshes/">Meshes</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../screens/">Screens</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Sprites</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../surfaces/">Surfaces</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../text/">Text</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../volumes/">Volumes</a>
                         </li>
                     
                     </ul>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../api/">API</a>
-                </li>
-            
-            
-            
-                <li >
-                    <a href="../../performance/">Performance</a>
                 </li>
             
             
@@ -126,12 +138,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="next" href="../particles/">
+                    <a rel="next" href="../screens/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../text/">
+                    <a rel="prev" href="../surfaces/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -154,7 +166,10 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#arrows">Arrows</a></li>
+        <li class="main active"><a href="#arrows3d">Arrows3d</a></li>
+        
+    
+        <li class="main "><a href="#arrows">Arrows</a></li>
         
     
         <li class="main "><a href="#billboard">Billboard</a></li>
@@ -178,9 +193,37 @@
         <li class="main "><a href="#moving-circles">Moving Circles</a></li>
         
     
+        <li class="main "><a href="#particles2d">Particles2D</a></li>
+        
+    
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
+
+<h1 id="arrows3d">Arrows3d</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/arrows3d.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction
+
+window = glscreen()
+timesignal = loop(linspace(0f0,1f0,360))
+# let the visualization rotate later on
+rotation = map(rotationmatrix_z, const_lift(*, timesignal, 2f0*pi))
+# create some random 3D vectors
+vectors3d = rand(Vec3f0, 5,5,5)
+# this is not the best way to use 2D sprites, but this will space them on
+# a 3D grid and use the rotation from `vectors3d` and the length of them
+# to look up the a color from the optional keyword argument `color_map`.
+arrows = visualize(('➤', vectors3d), scale=Vec2f0(0.1), model=rotation)
+
+view(arrows, camera=:perspective)
+
+renderloop(window)
+
+</code></pre>
 
 <h1 id="arrows">Arrows</h1>
 <video  width="600" autoplay loop>
@@ -190,8 +233,8 @@
 
 <pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive
 
- window = glscreen()
- timesignal = bounce(linspace(0,1,360))
+window = glscreen()
+timesignal = bounce(linspace(0,1,360))
 N = 20
 # generate some rotations
 function rotation_func(t)
@@ -206,7 +249,7 @@ flow = map(rotation_func, timesignal)
 vis = visualize(flow, ranges=(50:800,50:500))
 view(vis, window, camera=:orthographic_pixel)
 
- renderloop(window)
+renderloop(window)
 
 </code></pre>
 
@@ -248,8 +291,8 @@ renderloop(window)
 
 <pre><code class="Julia">using GLVisualize, GeometryTypes, GLAbstraction
 using Colors, Reactive, FileIO
- window = glscreen()
- timesignal = bounce(linspace(0,1,50))
+window = glscreen()
+timesignal = bounce(linspace(0,1,50))
 n = 30
 const border = 50f0
 function bounce_particles(pos_velo, _)
@@ -279,7 +322,7 @@ vis = visualize((circle, map(first, position_velocity)),
 )
 view(vis, window, camera=:orthographic_pixel)
 
- renderloop(window)
+renderloop(window)
 
 </code></pre>
 
@@ -291,8 +334,8 @@ view(vis, window, camera=:orthographic_pixel)
 
 <pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors
 
- window = glscreen()
- timesignal = loop(linspace(0f0, 1f0, 360))
+window = glscreen()
+timesignal = loop(linspace(0f0, 1f0, 360))
 const n1 = 30
 positions = rand(Point2f0, n1).*1000f0
 
@@ -325,7 +368,7 @@ distfield = visualize((DISTANCEFIELD, positions),
 view(distfield, window)
 
 
- renderloop(window)
+renderloop(window)
 
 </code></pre>
 
@@ -337,8 +380,8 @@ view(distfield, window)
 
 <pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors
 
- window = glscreen()
- timesignal = loop(linspace(0f0, 1f0, 360))
+window = glscreen()
+timesignal = loop(linspace(0f0, 1f0, 360))
 
 # this is just one big texture
 texture_atlas = loadasset(&quot;doge.png&quot;)
@@ -372,7 +415,7 @@ distfield = visualize((Circle, positions),
 view(distfield, window)
 
 
- renderloop(window)
+renderloop(window)
 
 </code></pre>
 
@@ -384,8 +427,8 @@ view(distfield, window)
 
 <pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors
 
- window = glscreen()
- timesignal = bounce(0f0:20f0)
+window = glscreen()
+timesignal = loop(linspace(0f0,1f0, 360))
 
 const S = -5f0
 const W = 10f0
@@ -396,7 +439,7 @@ const gravity  = Vec3f0(0,0,-0.04)
 
 upper_bound(x) = x&gt;S+W
 lower_bound(x) = x&lt;S
-function letitsnow(position, t)
+function let_it_snow(position, t)
     @inbounds for i=1:length(ps)
         pos = Vec(position[i])
         p = Point3f0(pos+gravity+velocity[i])
@@ -409,9 +452,8 @@ function letitsnow(position, t)
     end
     position
 end
-particles       = foldp(letitsnow, ps, timesignal)
-rotation_angle  = bounce(0f0:1f0:360f0)
-rotation        = map(rotationmatrix_z, map(deg2rad, rotation_angle))
+particles       = foldp(let_it_snow, ps, timesignal)
+rotation        = map(rotationmatrix_z, const_lift(*, timesignal, 2f0*pi))
 color_ramp      = colormap(&quot;Blues&quot;, 50)
 colors          = RGBA{Float32}[color_ramp[rand(1:50)] for i=1:N]
 
@@ -424,7 +466,7 @@ snowflakes = visualize(
 view(snowflakes, window, camera=:perspective)
 
 
- renderloop(window)
+renderloop(window)
 
 </code></pre>
 
@@ -497,6 +539,39 @@ circles = visualize(
 )
 
 view(circles, window)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="particles2d">Particles2D</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/particles2D.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction
+
+window = glscreen()
+timesignal = bounce(linspace(0,1,360))
+
+
+function spiral(i, start_radius, offset)
+    Point2f0(sin(i), cos(i)) * (start_radius + ((i/2pi)*offset))
+end
+# 2D particles
+particle_data2D(i, N) = Point2f0[spiral(i+x, 3, 10) for x=1:N]
+# stretch time a bit:
+t = const_lift(*, timesignal, 30f0)
+
+# the simplest of all, plain 2D particles.
+# to make it a little more interesting, we animate the particles a bit!
+particles = const_lift(particle_data2D, t, 256)
+
+# create a visualisation with each particle being 15px wide
+# if you omit the primitive, it defaults to a SimpleRectangle
+vis = visualize(particles, scale=Vec2f0(15))
+view(vis, window, camera=:orthographic_pixel)
 
 renderloop(window)
 

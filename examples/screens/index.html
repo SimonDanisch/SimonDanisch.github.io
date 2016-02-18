@@ -7,14 +7,14 @@
         
         <meta name="author" content="Simon Danisch">
         
-        <link rel="shortcut icon" href="../img/favicon.ico">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
 
-	<title>Performance - GLVisualize Documentation</title>
+	<title>Screens - GLVisualize Documentation</title>
 
-        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/highlight.css">
-        <link href="../css/base.css" rel="stylesheet">
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <link href="../../css/base.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
             </button>
 
             <!-- Main title -->
-            <a class="navbar-brand" href="..">GLVisualize Documentation</a>
+            <a class="navbar-brand" href="../..">GLVisualize Documentation</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -51,77 +51,77 @@
             
             
                 <li >
-                    <a href="..">Home</a>
+                    <a href="../..">Home</a>
                 </li>
             
             
             
                 <li >
-                    <a href="../api/">Api</a>
+                    <a href="../../api/">Api</a>
                 </li>
             
             
             
-                <li class="active">
-                    <a href="./">Performance</a>
+                <li >
+                    <a href="../../performance/">Performance</a>
                 </li>
             
             
             
-                <li class="dropdown">
+                <li class="dropdown active">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                     
                         <li >
-                            <a href="../examples/camera/">Camera</a>
+                            <a href="../camera/">Camera</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/compose/">Compose</a>
+                            <a href="../compose/">Compose</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/imagelike/">Imagelike</a>
+                            <a href="../imagelike/">Imagelike</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/interactive/">Interactive</a>
+                            <a href="../interactive/">Interactive</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/introduction/">Introduction</a>
+                            <a href="../introduction/">Introduction</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/lines/">Lines</a>
+                            <a href="../lines/">Lines</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/meshes/">Meshes</a>
+                            <a href="../meshes/">Meshes</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/particles/">Particles</a>
+                            <a href="../particles/">Particles</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Screens</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/screens/">Screens</a>
+                            <a href="../sprites/">Sprites</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/sprites/">Sprites</a>
+                            <a href="../surfaces/">Surfaces</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/surfaces/">Surfaces</a>
+                            <a href="../text/">Text</a>
                         </li>
                     
                         <li >
-                            <a href="../examples/text/">Text</a>
-                        </li>
-                    
-                        <li >
-                            <a href="../examples/volumes/">Volumes</a>
+                            <a href="../volumes/">Volumes</a>
                         </li>
                     
                     </ul>
@@ -138,12 +138,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="next" href="../api/">
+                    <a rel="next" href="../particles/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../examples/camera/">
+                    <a rel="prev" href="../sprites/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -166,22 +166,50 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#performance-tips-for-glvisualize">Performance tips for GLVisualize</a></li>
+        <li class="main active"><a href="#screens">Screens</a></li>
         
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="performance-tips-for-glvisualize">Performance tips for GLVisualize</h1>
-<p>GLVisualize doesn't optimize drawing many RenderObjects objects very well yet. We would need some better OpenGL draw call optimization for that.
-So if you need to draw many objects, make sure that you use the particle system or merge meshes whenever possible.
-For animations, make sure to pass a static boundingbox via the keyword arguments.</p>
-<p>E.g:</p>
-<p>Julia
-visualize(x, boundingbox=nothing) # Or AABB{Float32}(Vec3f0(0),Vec3f0(0))
-Otherwise the boundinbox will be calculated every time the signal updates which can be very expensive.</p>
-<p>Here is a <a href="http://randomfantasies.com/2015/05/glvisualize-benchmark/">blog post</a> about the performance of GLVisualize. It's a bit outdated but should still be accurate.</p></div>
+<h1 id="screens">Screens</h1>
+<p><img alt="Screens" src="../../../media/screens.png" /></p>
+<pre><code class="Julia">using GLVisualize, Reactive, GeometryTypes
+using GLWindow, GLAbstraction
+
+window = glscreen()
+
+&quot;&quot;&quot;
+functions to halve some rectangle
+&quot;&quot;&quot;
+xhalf(r)  = SimpleRectangle(r.x, r.y, r.w÷2, r.h)
+xhalf2(r) = SimpleRectangle(r.w÷2, r.y, r.w÷2, r.h)
+
+# create first screen with window as the parent screen
+# and a different area.
+screen2D = Screen(
+    window, name=:screen2D,
+    area=const_lift(xhalf2, window.area)
+)
+# create second screen with window as the parent screen
+# and a different area.
+screen3D = Screen(
+    window, name=:screen3D,
+    area=const_lift(xhalf, window.area)
+)
+
+# create something to look at!
+bars = visualize(rand(Float32, 10,10))
+points = visualize([rand(Point2f0)*1000 for i=1:50], scale=Vec2f0(40))
+
+# view them in different screens
+view(bars,   screen3D, camera=:perspective)
+view(points, screen2D, camera=:orthographic_pixel)
+
+renderloop(window)
+
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">
@@ -190,12 +218,12 @@ Otherwise the boundinbox will be calculated every time the signal updates which 
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>
 
-        <script src="../js/jquery-1.10.2.min.js"></script>
-        <script src="../js/bootstrap-3.0.3.min.js"></script>
-        <script src="../js/highlight.pack.js"></script>
-        <script>var base_url = '..';</script>
-        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
-        <script src="../js/base.js"></script>
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+        <script src="../../js/base.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
             <div class="modal-dialog">

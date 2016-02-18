@@ -9,7 +9,7 @@
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
 
-	<title>Volumes - GLVisualize Documentation</title>
+	<title>Imagelike - GLVisualize Documentation</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -80,8 +80,8 @@
                             <a href="../compose/">Compose</a>
                         </li>
                     
-                        <li >
-                            <a href="../imagelike/">Imagelike</a>
+                        <li class="active">
+                            <a href="./">Imagelike</a>
                         </li>
                     
                         <li >
@@ -120,8 +120,8 @@
                             <a href="../text/">Text</a>
                         </li>
                     
-                        <li class="active">
-                            <a href="./">Volumes</a>
+                        <li >
+                            <a href="../volumes/">Volumes</a>
                         </li>
                     
                     </ul>
@@ -138,12 +138,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="next" href="../text/">
+                    <a rel="next" href="../compose/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
-                <li class="disabled">
-                    <a rel="prev" >
+                <li >
+                    <a rel="prev" href="../interactive/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -166,29 +166,125 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#volume">Volume</a></li>
+        <li class="main active"><a href="#contourf">Contourf</a></li>
+        
+    
+        <li class="main "><a href="#imageio">Imageio</a></li>
+        
+    
+        <li class="main "><a href="#parametric-fun">Parametric Fun</a></li>
         
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="volume">Volume</h1>
-<pre><code class="Julia">using GLVisualize, GLWindow
+<h1 id="contourf">Contourf</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/contourf.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes
 
 window = glscreen()
-timesignal = bounce(linspace(0f0,1f0,360))
+timesignal = loop(linspace(0f0,1f0,360))
 
-function volume_data(N)
-    volume  = Float32[sin(x/15.0)+sin(y/15.0)+sin(z/15.0) for x=1:N, y=1:N, z=1:N]
-    max     = maximum(volume)
-    min     = minimum(volume)
-    volume  = (volume .- min) ./ (max .- min)
+# use the performance tips to speed this up
+# (http://docs.julialang.org/en/release-0.4/manual/performance-tips/)
+# the array is 512x512 after all
+const N = 512
+const range = linspace(-5f0, 5f0, N)
+
+function contour_inner(i, x, y)
+    Intensity{1,Float32}(sin(1.3*x*i)*cos(0.9*y)+cos(.8*x)*sin(1.9*y)+cos(y*.2*x))
+end
+const data = zeros(Intensity{1,Float32}, N, N)
+
+function contourdata(t)
+    for i=1:size(data, 1)
+        @simd for j=1:size(data, 2)
+            @inbounds data[i,j] = contour_inner(t, range[i], range[j])
+        end
+    end
+    data
 end
 
-volume = visualize(volume_data(128), :iso, isovalue=timesignal)
-view(volume, window)
+renderable = visualize(map(contourdata, timesignal))
 
+view(renderable, window, camera=:orthographic_pixel)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="imageio">Imageio</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/imageio.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, GLAbstraction, Colors, FileIO
+window = glscreen()
+
+# a few helper functions to generate images
+typealias NColor{N, T} Colorant{T, N}
+fillcolor{T &lt;: NColor{4}}(::Type{T}) = T(0,1,0,1)
+fillcolor{T &lt;: NColor{3}}(::Type{T}) = T(0,1,0)
+
+# create different images with different color types (not an exhaustive list of supported types)
+arrays = map((RGBA{U8}, RGBA{Float32}, RGB{U8}, RGB{Float32}, BGRA{U8}, BGR{Float32})) do C
+     C[fillcolor(C) for x=1:45,y=1:45]
+ end
+# load a few images from the asset folder with FileIO.load (that's what loadasset calls)
+loaded_imgs = map(x-&gt;loadasset(&quot;test_images&quot;, x), readdir(assetpath(&quot;test_images&quot;)))
+
+# combine them all into one array and add an animated gif and a few other images
+x = Any[
+    arrays..., loaded_imgs...,
+    loadasset(&quot;kittens-look.gif&quot;),
+    loadasset(&quot;mario&quot;, &quot;stand&quot;, &quot;right.png&quot;),
+    loadasset(&quot;mario&quot;, &quot;jump&quot;, &quot;left.gif&quot;),
+]
+
+# visualize all images and convert the array to be a vector of element type context
+# This shouldn't be necessary, but it seems map is not able to infer the type alone
+images = convert(Vector{Context}, map(visualize, x))
+# make it a grid
+images = reshape(images, (4,4))
+# GLVisualize offers a few helpers to visualize arrays of render objects
+# spaced out as the underlying array. So this will create a grid whereas every
+# item is 128x128x128 pixels big
+img_vis = visualize(images, scale=Vec3f0(128))
+view(img_vis, window)
+
+
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="parametric-fun">Parametric Fun</h1>
+<video  width="600" autoplay loop>
+  <source src="../../media/parametric_fun.webm">
+      Your browser does not support the video tag.
+</video>
+
+<pre><code class="Julia">using GLVisualize, GLAbstraction
+
+window = glscreen()
+timesignal = loop(linspace(0f0,1f0,360))
+
+# create a glsl fragment shader
+parametric_func = frag&quot;&quot;&quot;
+    uniform float arg1; // you can add arbitrary uniforms and supply them via the keyword args
+    float function(float x) {
+     return arg1*sin(1/tan(x));
+   }
+&quot;&quot;&quot;
+# view the function on a 1700x800 pixel plane
+paremetric = visualize(parametric_func, arg1=timesignal, dimensions=(1700, 800))
+view(paremetric, window, camera=:orthographic_pixel)
 
 renderloop(window)
 
