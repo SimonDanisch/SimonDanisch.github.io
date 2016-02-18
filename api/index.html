@@ -63,6 +63,12 @@
             
             
                 <li >
+                    <a href="../known_issues/">Known issues</a>
+                </li>
+            
+            
+            
+                <li >
                     <a href="../performance/">Performance</a>
                 </li>
             
@@ -143,7 +149,7 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../performance/">
+                    <a rel="prev" href="../known_issues/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -169,18 +175,6 @@
         <li class="main active"><a href="#this-api-documentation-was-generated-automatically-and-is-a-work-in-progress">This API documentation was generated automatically and is a work in progress.</a></li>
         
     
-        <li class="main "><a href="#is_hovering">is_hovering</a></li>
-        
-    
-        <li class="main "><a href="#_default">_default</a></li>
-        
-    
-        <li class="main "><a href="#sprites">sprites</a></li>
-        
-    
-        <li class="main "><a href="#projection_switch">projection_switch</a></li>
-        
-    
         <li class="main "><a href="#cubecamera">cubecamera</a></li>
         
     
@@ -190,16 +184,28 @@
         <li class="main "><a href="#dragged_on">dragged_on</a></li>
         
     
+        <li class="main "><a href="#meshparticle">meshparticle</a></li>
+        
+    
+        <li class="main "><a href="#sprites">sprites</a></li>
+        
+    
         <li class="main "><a href="#visualize">visualize</a></li>
         
     
         <li class="main "><a href="#clicked">clicked</a></li>
         
     
+        <li class="main "><a href="#is_hovering">is_hovering</a></li>
+        
+    
         <li class="main "><a href="#play">play</a></li>
         
     
-        <li class="main "><a href="#meshparticle">meshparticle</a></li>
+        <li class="main "><a href="#projection_switch">projection_switch</a></li>
+        
+    
+        <li class="main "><a href="#_default">_default</a></li>
         
     
     </ul>
@@ -207,76 +213,6 @@
             <div class="col-md-9" role="main">
 
 <h2 id="this-api-documentation-was-generated-automatically-and-is-a-work-in-progress">This API documentation was generated automatically and is a work in progress.</h2>
-<h2 id="is_hovering"><code>is_hovering</code></h2>
-<p>args: <code>(::RenderObject, ::Screen)</code></p>
-<p>Returns a boolean signal indicating if the mouse hovers over <code>robj</code></p>
-<hr />
-<h2 id="_default"><code>_default</code></h2>
-<p>args: <code>(::Union{Signal G}, ::Style, ::Dict)</code></p>
-<p>We plot simple Geometric primitives as particles with length one. At some point, this should all be appended to the same particle system to increase performance.</p>
-<hr />
-<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
-<p>Float matrix with the style distancefield will be interpreted as a distancefield. A distancefield is describing a shape, with positive values denoting the inside of the shape, negative values the outside and 0 the border</p>
-<hr />
-<p>args: <code>(::Union{GPUArray Array Signal}, ::Style, ::Dict)</code></p>
-<p>Vectors of n-dimensional points get ndimensional rectangles as default primitives. (Particles)</p>
-<hr />
-<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
-<p>arrays of floats with any geometry primitive, will be spaced out on a grid defined by <code>ranges</code> and will use the floating points as the height for the primitives (<code>scale_z</code>)</p>
-<hr />
-<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
-<p>3D matrices of vectors are 3D vector field with a pyramid (arrow) like default primitive.</p>
-<hr />
-<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
-<p>Sprites primitives with a vector of floats are treated as something barplot like</p>
-<hr />
-<p>args: <code>(::Union{Signal GPUArray Array}, ::Style, ::Dict)</code></p>
-<p>A matrix of Intensities will result in a contourf kind of plot</p>
-<hr />
-<p>args: <code>(::Shader, ::Style, ::Dict)</code></p>
-<p>Takes a shader as a parametric function. The shader should contain a function stubb like this:</p>
-<pre><code class="GLSL">uniform float arg1; // you can add arbitrary uniforms and supply them via the keyword args
-float function(float x) {
- return arg1*sin(1/tan(x));
-}
-</code></pre>
-
-<hr />
-<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
-<p>Matrices of floats are represented as 3D barplots with cubes as primitive</p>
-<hr />
-<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
-<p>This is the most primitive particle system, which uses simple points as primitives. This is supposed to be very fast!</p>
-<hr />
-<p>args: <code>(::Union{Signal GPUArray Array}, ::Style, ::Dict)</code></p>
-<p>A matrix of colors is interpreted as an image</p>
-<hr />
-<p>args: <code>(::Union{GPUArray Signal Array}, ::Style, ::Dict)</code></p>
-<p>Vectors of floats are treated as barplots, so they get a HyperRectangle as default primitive.</p>
-<hr />
-<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
-<p>arrays of floats with the sprite primitive type (2D geometry + picture like), will be spaced out on a grid defined by <code>ranges</code> and will use the floating points as the z position for the primitives.</p>
-<hr />
-<p>args: <code>(::Union{GPUArray Array Signal}, ::Style, ::Dict)</code></p>
-<p>2D matrices of vectors are 2D vector field with a an unicode arrow as the default primitive.</p>
-<hr />
-<p>args: <code>(::Image, ::Style, ::Dict)</code></p>
-<p>Takes a 3D image and decides if it is a volume or an animated Image.</p>
-<hr />
-<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
-<p>Vectors with <code>Vec</code> as element type are treated as vectors of rotations. The position is assumed to be implicitely on the grid the vector defines (1D,2D,3D grid)</p>
-<hr />
-<p>args: <code>(::Union{Signal S}, ::Style, ::Dict)</code></p>
-<p>Transforms text into a particle system of sprites, by inferring the texture coordinates in the texture atlas, widths and positions of the characters.</p>
-<hr />
-<h2 id="sprites"><code>sprites</code></h2>
-<p>args: <code>(::Any, ::Any, ::Any)</code></p>
-<p>Main assemble functions for sprite particles. Sprites are anything like distance fields, images and simple geometries</p>
-<hr />
-<h2 id="projection_switch"><code>projection_switch</code></h2>
-<p>args: <code>(::Any, ::Any, ::Any)</code></p>
-<p>creates a button that can switch between orthographic and perspective projection</p>
-<hr />
 <h2 id="cubecamera"><code>cubecamera</code></h2>
 <p>args: <code>(::Any)</code></p>
 <p>Creates a camera which is steered by a cube for <code>window</code>.</p>
@@ -289,6 +225,14 @@ float function(float x) {
 <p>args: <code>(::RenderObject, ::MouseButton, ::Screen)</code></p>
 <p>Returns a signal with the difference from dragstart and current mouse position, and the index from the current ROBJ id.</p>
 <hr />
+<h2 id="meshparticle"><code>meshparticle</code></h2>
+<p>args: <code>(::Any, ::Any, ::Any)</code></p>
+<p>This is the main function to assemble particles with a GLNormalMesh as a primitive</p>
+<hr />
+<h2 id="sprites"><code>sprites</code></h2>
+<p>args: <code>(::Any, ::Any, ::Any)</code></p>
+<p>Main assemble functions for sprite particles. Sprites are anything like distance fields, images and simple geometries</p>
+<hr />
 <h2 id="visualize"><code>visualize</code></h2>
 <p>args: <code>(::Tuple, ::Tuple)</code></p>
 <p>Creates a default visualization for any value. The defaults can be customized via the key word arguments and the style parameter. The style can change the the look completely (e.g points displayed as lines, or particles), while the key word arguments just alter the parameters of one visualization. Always returns a context, which can be displayed on a window via view(::Context, [display]).</p>
@@ -297,19 +241,81 @@ float function(float x) {
 <p>args: <code>(::RenderObject, ::MouseButton, ::Screen)</code></p>
 <p>Returns two signals, one boolean signal if clicked over <code>robj</code> and another one that consists of the object clicked on and another argument indicating that it's the first click</p>
 <hr />
-<h2 id="play"><code>play</code></h2>
-<p>args: <code>(::Image)</code></p>
-<p>Turns an Image into a video stream</p>
+<h2 id="is_hovering"><code>is_hovering</code></h2>
+<p>args: <code>(::RenderObject, ::Screen)</code></p>
+<p>Returns a boolean signal indicating if the mouse hovers over <code>robj</code></p>
 <hr />
+<h2 id="play"><code>play</code></h2>
 <p>args: <code>(::Array, ::Integer, ::Integer)</code></p>
 <p>With play, you can slice a 3D array along <code>timedim</code> at time <code>t</code>. This can be used to treat a 3D array like a video and create an image stream from it.</p>
 <hr />
 <p>args: <code>(::Array, ::Any, ::Any)</code></p>
 <p>Plays a video stream from VideoIO.jl. You need to supply the image <code>buffer</code>, which will be reused for better performance.</p>
 <hr />
-<h2 id="meshparticle"><code>meshparticle</code></h2>
+<p>args: <code>(::Image)</code></p>
+<p>Turns an Image into a video stream</p>
+<hr />
+<h2 id="projection_switch"><code>projection_switch</code></h2>
 <p>args: <code>(::Any, ::Any, ::Any)</code></p>
-<p>This is the main function to assemble particles with a GLNormalMesh as a primitive</p>
+<p>creates a button that can switch between orthographic and perspective projection</p>
+<hr />
+<h2 id="_default"><code>_default</code></h2>
+<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
+<p>This is the most primitive particle system, which uses simple points as primitives. This is supposed to be very fast!</p>
+<hr />
+<p>args: <code>(::Union{Signal G}, ::Style, ::Dict)</code></p>
+<p>We plot simple Geometric primitives as particles with length one. At some point, this should all be appended to the same particle system to increase performance.</p>
+<hr />
+<p>args: <code>(::Union{Signal S}, ::Style, ::Dict)</code></p>
+<p>Transforms text into a particle system of sprites, by inferring the texture coordinates in the texture atlas, widths and positions of the characters.</p>
+<hr />
+<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
+<p>Sprites primitives with a vector of floats are treated as something barplot like</p>
+<hr />
+<p>args: <code>(::Shader, ::Style, ::Dict)</code></p>
+<p>Takes a shader as a parametric function. The shader should contain a function stubb like this:</p>
+<pre><code class="GLSL">uniform float arg1; // you can add arbitrary uniforms and supply them via the keyword args
+float function(float x) {
+ return arg1*sin(1/tan(x));
+}
+</code></pre>
+
+<hr />
+<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
+<p>Float matrix with the style distancefield will be interpreted as a distancefield. A distancefield is describing a shape, with positive values denoting the inside of the shape, negative values the outside and 0 the border</p>
+<hr />
+<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
+<p>arrays of floats with the sprite primitive type (2D geometry + picture like), will be spaced out on a grid defined by <code>ranges</code> and will use the floating points as the z position for the primitives.</p>
+<hr />
+<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
+<p>Matrices of floats are represented as 3D barplots with cubes as primitive</p>
+<hr />
+<p>args: <code>(::Union{GPUArray Signal Array}, ::Style, ::Dict)</code></p>
+<p>Vectors of floats are treated as barplots, so they get a HyperRectangle as default primitive.</p>
+<hr />
+<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
+<p>Vectors with <code>Vec</code> as element type are treated as vectors of rotations. The position is assumed to be implicitely on the grid the vector defines (1D,2D,3D grid)</p>
+<hr />
+<p>args: <code>(::Union{Signal GPUArray Array}, ::Style, ::Dict)</code></p>
+<p>A matrix of colors is interpreted as an image</p>
+<hr />
+<p>args: <code>(::Union{Array Signal GPUArray}, ::Style, ::Dict)</code></p>
+<p>3D matrices of vectors are 3D vector field with a pyramid (arrow) like default primitive.</p>
+<hr />
+<p>args: <code>(::Union{GPUArray Array Signal}, ::Style, ::Dict)</code></p>
+<p>Vectors of n-dimensional points get ndimensional rectangles as default primitives. (Particles)</p>
+<hr />
+<p>args: <code>(::Image, ::Style, ::Dict)</code></p>
+<p>Takes a 3D image and decides if it is a volume or an animated Image.</p>
+<hr />
+<p>args: <code>(::Tuple, ::Style, ::Dict)</code></p>
+<p>arrays of floats with any geometry primitive, will be spaced out on a grid defined by <code>ranges</code> and will use the floating points as the height for the primitives (<code>scale_z</code>)</p>
+<hr />
+<p>args: <code>(::Union{Signal GPUArray Array}, ::Style, ::Dict)</code></p>
+<p>A matrix of Intensities will result in a contourf kind of plot</p>
+<hr />
+<p>args: <code>(::Union{GPUArray Array Signal}, ::Style, ::Dict)</code></p>
+<p>2D matrices of vectors are 2D vector field with a an unicode arrow as the default primitive.</p>
 <hr /></div>
         </div>
 

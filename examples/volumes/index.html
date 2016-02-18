@@ -63,6 +63,12 @@
             
             
                 <li >
+                    <a href="../../known_issues/">Known issues</a>
+                </li>
+            
+            
+            
+                <li >
                     <a href="../../performance/">Performance</a>
                 </li>
             
@@ -166,18 +172,20 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#volume">Volume</a></li>
+        <li class="main active"><a href="#maximum-intensity-projection">Maximum Intensity Projection</a></li>
+        
+    
+        <li class="main "><a href="#volume">Volume</a></li>
         
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="volume">Volume</h1>
-<pre><code class="Julia">using GLVisualize, GLWindow
+<h1 id="maximum-intensity-projection">Maximum Intensity Projection</h1>
+<video  width="600" autoplay loop><source src="../../media/maximum_intensity_projection.webm"> Your browser does not support the video tag. </video>
 
-window = glscreen()
-timesignal = bounce(linspace(0f0,1f0,360))
+<pre><code class="Julia">using GLVisualize, GLWindow, GLAbstraction
 
 function volume_data(N)
     volume  = Float32[sin(x/15.0)+sin(y/15.0)+sin(z/15.0) for x=1:N, y=1:N, z=1:N]
@@ -186,8 +194,38 @@ function volume_data(N)
     volume  = (volume .- min) ./ (max .- min)
 end
 
-volume = visualize(volume_data(128), :iso, isovalue=timesignal)
+window = glscreen()
+timesignal = bounce(linspace(0f0,1f0,360))
+volumedata = volume_data(128)
+using NIfTI
+volumedata = niread(assetpath(&quot;brain.nii&quot;)).raw
+
+volume = visualize(volumedata, :mip)
+
 view(volume, window)
+
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="volume">Volume</h1>
+<video  width="600" autoplay loop><source src="../../media/volume.webm"> Your browser does not support the video tag. </video>
+
+<pre><code class="Julia">using GLVisualize, GLWindow
+
+window = glscreen()
+timesignal = bounce(linspace(0f0,1f0,360))
+
+function volume_data(N)
+    vol     = Float32[sin(x/15.0)+sin(y/15.0)+sin(z/15.0) for x=1:N, y=1:N, z=1:N]
+    max     = maximum(vol)
+    min     = minimum(vol)
+    vol     = (vol .- min) ./ (max .- min)
+end
+
+vol = visualize(volume_data(128), :iso, isovalue=timesignal)
+view(vol, window)
 
 
 renderloop(window)

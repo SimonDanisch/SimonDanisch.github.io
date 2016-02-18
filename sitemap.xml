@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,15 @@
     
     <url>
      <loc>None/api/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>None/known_issues/</loc>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -20,7 +28,7 @@
     
     <url>
      <loc>None/performance/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -29,79 +37,79 @@
         
     <url>
      <loc>None/examples/camera/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/compose/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/imagelike/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/interactive/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/introduction/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/lines/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/meshes/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/particles/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/screens/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/sprites/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/surfaces/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/text/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/examples/volumes/</loc>
-     <lastmod>2016-02-18</lastmod>
+     <lastmod>2016-02-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         

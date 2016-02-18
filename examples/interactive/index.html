@@ -63,6 +63,12 @@
             
             
                 <li >
+                    <a href="../../known_issues/">Known issues</a>
+                </li>
+            
+            
+            
+                <li >
                     <a href="../../performance/">Performance</a>
                 </li>
             
@@ -183,33 +189,20 @@
             <div class="col-md-9" role="main">
 
 <h1 id="color-edit">Color Edit</h1>
-<pre><code class="Julia"># using GLVisualize, Colors, ModernGL, GeometryTypes, GLAbstraction, GLWindow, FileIO
-# w = glscreen()
-# v, colortex = vizzedit(map(RGBA{U8}, colormap(&quot;blues&quot;, 7)), w)
+<pre><code class="Julia">using GLVisualize, Colors, ModernGL, GeometryTypes, GLAbstraction, GLWindow, FileIO
+w = glscreen()
+v, colortex = vizzedit(map(RGBA{U8}, colormap(&quot;blues&quot;, 7)), w)
 
-# function screen(robj, w)
-#   bb = boundingbox(robj)
-#   area = const_lift(bb) do b
-#       m = Vec{2,Int}(b.minimum)
-#       SimpleRectangle{Int}(m..., (Vec{2,Int}(b.maximum+30)-m)...)
-#   end
-#   s = Screen(w, area=area)
-#   transformation(robj, translationmatrix(Vec3f0(15,15,0)))
-#   view(robj, s, camera=:fixed_pixel)
-#   s
-# end
+robj = visualize(rand(Float32, 32,32), color_map=colortex, color_norn=Vec2f0(0,2))
+view(robj, w)
+view(v, w, camera=:fixed_pixel)
 
-# screen(v, w)
-# view(visualize(rand(Float32, 28,92), color=colortex, color_norm=Vec2f0(0,1)))
-# renderloop()
+renderloop(w)
 
 </code></pre>
 
 <h1 id="graph-editing">Graph Editing</h1>
-<video  width="600" autoplay loop>
-  <source src="../../media/graph_editing.webm">
-      Your browser does not support the video tag.
-</video>
+<video  width="600" autoplay loop><source src="../../media/graph_editing.webm"> Your browser does not support the video tag. </video>
 
 <pre><code class="Julia">using GeometryTypes, GLVisualize, GLAbstraction, Reactive, GLWindow, GLFW
 
@@ -268,10 +261,7 @@ renderloop(window)
 </code></pre>
 
 <h1 id="image-processing">Image Processing</h1>
-<video  width="600" autoplay loop>
-  <source src="../../media/image_processing.webm">
-      Your browser does not support the video tag.
-</video>
+<video  width="600" autoplay loop><source src="../../media/image_processing.webm"> Your browser does not support the video tag. </video>
 
 <pre><code class="Julia">using Images, Colors, GeometryTypes
 using Reactive, FileIO, GLVisualize
@@ -333,10 +323,7 @@ renderloop(window)
 </code></pre>
 
 <h1 id="mario-game">Mario Game</h1>
-<video  width="600" autoplay loop>
-  <source src="../../media/mario_game.webm">
-      Your browser does not support the video tag.
-</video>
+<video  width="600" autoplay loop><source src="../../media/mario_game.webm"> Your browser does not support the video tag. </video>
 
 <pre><code class="Julia">using GeometryTypes, GLVisualize, GLAbstraction, ImageMagick
 using FileIO, ColorTypes, Reactive
