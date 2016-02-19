@@ -172,10 +172,10 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#arrows3d">Arrows3d</a></li>
+        <li class="main active"><a href="#arrows">Arrows</a></li>
         
     
-        <li class="main "><a href="#arrows">Arrows</a></li>
+        <li class="main "><a href="#arrows3d">Arrows3d</a></li>
         
     
         <li class="main "><a href="#billboard">Billboard</a></li>
@@ -206,28 +206,6 @@
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="arrows3d">Arrows3d</h1>
-<video  width="600" autoplay loop><source src="../../media/arrows3d.webm"> Your browser does not support the video tag. </video>
-
-<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction
-
-window = glscreen()
-timesignal = loop(linspace(0f0,1f0,360))
-# let the visualization rotate later on
-rotation = map(rotationmatrix_z, const_lift(*, timesignal, 2f0*pi))
-# create some random 3D vectors
-vectors3d = rand(Vec3f0, 5,5,5)
-# this is not the best way to use 2D sprites, but this will space them on
-# a 3D grid and use the rotation from `vectors3d` and the length of them
-# to look up the a color from the optional keyword argument `color_map`.
-arrows = visualize(('➤', vectors3d), scale=Vec2f0(0.1), model=rotation)
-
-view(arrows, camera=:perspective)
-
-renderloop(window)
-
-</code></pre>
-
 <h1 id="arrows">Arrows</h1>
 <video  width="600" autoplay loop><source src="../../media/arrows.webm"> Your browser does not support the video tag. </video>
 
@@ -248,6 +226,28 @@ flow = map(rotation_func, timesignal)
 # create a visualisation
 vis = visualize(flow, ranges=(50:800,50:500))
 view(vis, window, camera=:orthographic_pixel)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="arrows3d">Arrows3d</h1>
+<video  width="600" autoplay loop><source src="../../media/arrows3d.webm"> Your browser does not support the video tag. </video>
+
+<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction
+
+window = glscreen()
+timesignal = loop(linspace(0f0,1f0,360))
+# let the visualization rotate later on
+rotation = map(rotationmatrix_z, const_lift(*, timesignal, 2f0*pi))
+# create some random 3D vectors
+vectors3d = rand(Vec3f0, 5,5,5)
+# this is not the best way to use 2D sprites, but this will space them on
+# a 3D grid and use the rotation from `vectors3d` and the length of them
+# to look up the a color from the optional keyword argument `color_map`.
+arrows = visualize(('➤', vectors3d), scale=Vec2f0(0.1), model=rotation)
+
+view(arrows, camera=:perspective)
 
 renderloop(window)
 

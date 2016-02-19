@@ -187,10 +187,10 @@
         <li class="main "><a href="#regression">Regression</a></li>
         
     
-        <li class="main "><a href="#sin-dataframe">Sin Dataframe</a></li>
+        <li class="main "><a href="#singraph">Singraph</a></li>
         
     
-        <li class="main "><a href="#singraph">Singraph</a></li>
+        <li class="main "><a href="#sin-dataframe">Sin Dataframe</a></li>
         
     
     </ul>
@@ -304,6 +304,22 @@ renderloop(window)
 
 </code></pre>
 
+<h1 id="singraph">Singraph</h1>
+<p><img alt="Singraph" src="../../../media/singraph.png" /></p>
+<pre><code class="Julia">using Colors, GLVisualize
+using Gadfly, GLVisualize.ComposeBackend
+
+window = glscreen()
+composebackend = ComposeBackend.GLVisualizeBackend(window)
+
+
+p = plot([sin, cos], 0, 25)
+
+draw(composebackend, p)
+renderloop(window)
+
+</code></pre>
+
 <h1 id="sin-dataframe">Sin Dataframe</h1>
 <p><img alt="Sin Dataframe" src="../../../media/sin_dataframe.png" /></p>
 <pre><code class="Julia">using Colors, GLVisualize
@@ -335,22 +351,6 @@ p = plot(df, x=:x, y=:y, ymin=:ymin, ymax=:ymax, color=:f, Geom.line, Geom.ribbo
 
 draw(composebackend, p)
 
-renderloop(window)
-
-</code></pre>
-
-<h1 id="singraph">Singraph</h1>
-<p><img alt="Singraph" src="../../../media/singraph.png" /></p>
-<pre><code class="Julia">using Colors, GLVisualize
-using Gadfly, GLVisualize.ComposeBackend
-
-window = glscreen()
-composebackend = ComposeBackend.GLVisualizeBackend(window)
-
-
-p = plot([sin, cos], 0, 25)
-
-draw(composebackend, p)
 renderloop(window)
 
 </code></pre></div>
