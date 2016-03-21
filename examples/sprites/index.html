@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <meta name="author" content="Simon Danisch">
         <link rel="canonical" href="http://www.glvisualize.com/examples/sprites/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
@@ -22,7 +22,7 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
 
-        
+
     </head>
 
     <body>
@@ -48,118 +48,118 @@
         <div class="navbar-collapse collapse">
             <!-- Main navigation -->
             <ul class="nav navbar-nav">
-            
-            
+
+
                 <li >
                     <a href="../..">Home</a>
                 </li>
-            
-            
-            
+
+
+
                 <li >
                     <a href="../../api/">Api</a>
                 </li>
-            
-            
-            
+
+
+
                 <li >
                     <a href="../../known_issues/">Known issues</a>
                 </li>
-            
-            
-            
+
+
+
                 <li >
                     <a href="../../performance/">Performance</a>
                 </li>
-            
-            
-            
+
+
+
                 <li class="dropdown active">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                    
-                        
+
+
 <li >
     <a href="../camera/">Camera</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../compose/">Compose</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../imagelike/">Imagelike</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../interactive/">Interactive</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../introduction/">Introduction</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../lines/">Lines</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../meshes/">Meshes</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../particles/">Particles</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../screens/">Screens</a>
 </li>
 
-                    
-                        
+
+
 <li class="active">
     <a href="./">Sprites</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../surfaces/">Surfaces</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../text/">Text</a>
 </li>
 
-                    
-                        
+
+
 <li >
     <a href="../volumes/">Volumes</a>
 </li>
 
-                    
+
                     </ul>
                 </li>
-            
-            
+
+
             </ul>
 
             <!-- Search, Navigation and Repo links -->
@@ -179,16 +179,16 @@
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
-                
+
                 <li>
                     <a href="https://github.com/JuliaGL/GLVisualize.jl">
-                        
+
                             <i class="fa fa-github"></i>
-                        
+
                         GitHub
                     </a>
                 </li>
-                
+
             </ul>
         </div>
     </div>
@@ -197,40 +197,40 @@
         <div class="container">
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-    
+
         <li class="main active"><a href="#arrows3d">Arrows3d</a></li>
-        
-    
+
+
         <li class="main "><a href="#arrows">Arrows</a></li>
-        
-    
+
+
         <li class="main "><a href="#billboard">Billboard</a></li>
-        
-    
+
+
         <li class="main "><a href="#bouncy">Bouncy</a></li>
-        
-    
+
+
         <li class="main "><a href="#distancefield">Distancefield</a></li>
-        
-    
+
+
         <li class="main "><a href="#image-texture-atlas">Image Texture Atlas</a></li>
-        
-    
+
+
         <li class="main "><a href="#letitsnow">Letitsnow</a></li>
-        
-    
+
+
         <li class="main "><a href="#moving-bars">Moving Bars</a></li>
-        
-    
+
+
         <li class="main "><a href="#moving-circles">Moving Circles</a></li>
-        
-    
+
+
         <li class="main "><a href="#particles2d">Particles2D</a></li>
-        
-    
+
+
         <li class="main "><a href="#simulation">Simulation</a></li>
-        
-    
+
+
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
@@ -585,7 +585,8 @@ renderloop(window)
 <h1 id="simulation">Simulation</h1>
 <video  width="600" autoplay loop><source src="../../media/simulation.webm"> Your browser does not support the video tag. </video>
 
-<pre><code class="Julia">using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors, GLWindow, ModernGL
+<pre><code class="Julia">#this is an example by https://github.com/musmo
+    using GLVisualize, GeometryTypes, Reactive, GLAbstraction, Colors, GLWindow, ModernGL
 
 &quot;&quot;&quot;
 Simulation function
@@ -715,7 +716,7 @@ window.color = RGBA(0,0,0,0)
 
         <footer class="col-md-12">
             <hr>
-            
+
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>
 
