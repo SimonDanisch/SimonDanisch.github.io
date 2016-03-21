@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Simon Danisch">
-        
+        <link rel="canonical" href="http://www.glvisualize.com/examples/interactive/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
 
 	<title>Interactive - GLVisualize Documentation</title>
@@ -78,57 +78,83 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                     
-                        <li >
-                            <a href="../camera/">Camera</a>
-                        </li>
+                        
+<li >
+    <a href="../camera/">Camera</a>
+</li>
+
                     
-                        <li >
-                            <a href="../compose/">Compose</a>
-                        </li>
+                        
+<li >
+    <a href="../compose/">Compose</a>
+</li>
+
                     
-                        <li >
-                            <a href="../imagelike/">Imagelike</a>
-                        </li>
+                        
+<li >
+    <a href="../imagelike/">Imagelike</a>
+</li>
+
                     
-                        <li class="active">
-                            <a href="./">Interactive</a>
-                        </li>
+                        
+<li class="active">
+    <a href="./">Interactive</a>
+</li>
+
                     
-                        <li >
-                            <a href="../introduction/">Introduction</a>
-                        </li>
+                        
+<li >
+    <a href="../introduction/">Introduction</a>
+</li>
+
                     
-                        <li >
-                            <a href="../lines/">Lines</a>
-                        </li>
+                        
+<li >
+    <a href="../lines/">Lines</a>
+</li>
+
                     
-                        <li >
-                            <a href="../meshes/">Meshes</a>
-                        </li>
+                        
+<li >
+    <a href="../meshes/">Meshes</a>
+</li>
+
                     
-                        <li >
-                            <a href="../particles/">Particles</a>
-                        </li>
+                        
+<li >
+    <a href="../particles/">Particles</a>
+</li>
+
                     
-                        <li >
-                            <a href="../screens/">Screens</a>
-                        </li>
+                        
+<li >
+    <a href="../screens/">Screens</a>
+</li>
+
                     
-                        <li >
-                            <a href="../sprites/">Sprites</a>
-                        </li>
+                        
+<li >
+    <a href="../sprites/">Sprites</a>
+</li>
+
                     
-                        <li >
-                            <a href="../surfaces/">Surfaces</a>
-                        </li>
+                        
+<li >
+    <a href="../surfaces/">Surfaces</a>
+</li>
+
                     
-                        <li >
-                            <a href="../text/">Text</a>
-                        </li>
+                        
+<li >
+    <a href="../text/">Text</a>
+</li>
+
                     
-                        <li >
-                            <a href="../volumes/">Volumes</a>
-                        </li>
+                        
+<li >
+    <a href="../volumes/">Volumes</a>
+</li>
+
                     
                     </ul>
                 </li>
@@ -172,7 +198,7 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#color-edit">Color Edit</a></li>
+        <li class="main active"><a href="#color-chooser">Color Chooser</a></li>
         
     
         <li class="main "><a href="#graph-editing">Graph Editing</a></li>
@@ -188,16 +214,21 @@
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="color-edit">Color Edit</h1>
-<pre><code class="Julia">using GLVisualize, Colors, ModernGL, GeometryTypes, GLAbstraction, GLWindow, FileIO
-w = glscreen()
-v, colortex = vizzedit(map(RGBA{U8}, colormap(&quot;blues&quot;, 7)), w)
+<h1 id="color-chooser">Color Chooser</h1>
+<video  width="600" autoplay loop><source src="../../media/color_chooser.webm"> Your browser does not support the video tag. </video>
 
-robj = visualize(rand(Float32, 32,32), color_map=colortex, color_norn=Vec2f0(0,2))
-view(robj, w)
-view(v, w, camera=:fixed_pixel)
+<pre><code class="Julia">using GLVisualize, Colors, GeometryTypes, Reactive
 
-renderloop(w)
+window = glscreen()
+
+color_s = Signal(RGBA{Float32}(1,0,0,1))
+color_s, color_v = vizzedit(color_s, window)
+
+view(color_v, window, camera=:fixed_pixel)
+
+view(visualize(rand(Point2f0, 50_000) * 1000f0, scale=Vec2f0(5), color=color_s))
+
+renderloop(window)
 
 </code></pre>
 
@@ -211,16 +242,20 @@ window = glscreen()
 n = 50
 n_connections = 100
 a = rand(Point2f0, n)*1000f0
-points = visualize((Circle(Point2f0(0), 15f0), a))
+indices = Signal(rand(1:n, n_connections))
+# for the points, we only need unique indices!
+unique_indices = map(unique, indices)
+points = visualize((Circle(Point2f0(0), 15f0), a), indices=unique_indices)
 
 const point_robj = points.children[] # temporary way of getting the render object. Shouldn't stay like this
  # best way to get the gpu object. One could also start by creating a gpu array oneself.
  # this is a bit tricky, since not there are three different types.
  # for points and lines you need a GLBuffer. e.g gpu_position = GLBuffer(rand(Point2f0, 50)*1000f0)
 const gpu_position = point_robj[:position]
+# GPUVector adds functionality like push! and splice!
 # now the lines and points share the same gpu object
 # for linesegments, you can pass indices, which needs to be of some 32bit int type
-lines  = visualize(gpu_position, :linesegment, indices=rand(1:n, n_connections))
+lines  = visualize(gpu_position, :linesegment, indices=indices)
 
 # current tuple of renderobject id and index into the gpu array
 const m2id = GLWindow.mouse2id(window)
@@ -231,6 +266,8 @@ isoverpoint = const_lift(is_same_id, m2id, point_robj)
 
 # single left mousekey pressed (while no other mouse key is pressed)
 key_pressed = const_lift(GLAbstraction.singlepressed, mouse_buttons_pressed, GLFW.MOUSE_BUTTON_LEFT)
+# righ
+right_pressed = const_lift(GLAbstraction.singlepressed, mouse_buttons_pressed, GLFW.MOUSE_BUTTON_RIGHT)
 # dragg while key_pressed. Drag only starts if isoverpoint is true
 mousedragg  = GLAbstraction.dragged(mouseposition, key_pressed, isoverpoint)
 
@@ -251,6 +288,21 @@ preserve(foldp((value(m2id)..., Point2f0(0)), mousedragg) do v0, dragg
 
     end
     return id, index, p0
+end)
+# On right click remove nodes!
+preserve(map(right_pressed) do rp
+    id, index = value(m2id)
+    if rp &amp;&amp; id==point_robj.id &amp;&amp; length(gpu_position) &gt;= index
+        new_indices = Int[]
+        indice_val = value(indices)
+        for i=1:2:length(indice_val) #filter out indices
+            a, b = indice_val[i], indice_val[i+1]
+            if a != index &amp;&amp; b != index
+                push!(new_indices, a, b)
+            end
+        end
+        push!(indices, new_indices) # update indices!
+    end
 end)
 # view it!
 view(lines, window, camera=:fixed_pixel)
@@ -275,7 +327,7 @@ doge = loadasset(&quot;doge.png&quot;)
 # Convert to RGBA{Float32}. Float for filtering and 32 because it fits the GPU better
 img = map(RGBA{Float32}, doge)
 # create a slider that goes from 1-20 in 0.1 steps
-slider_s, slider = vizzedit(1f0:0.1f0:20f0, window)
+slider_s, slider = vizzedit(Signal(1f0), range=1f0:0.1f0:20f0, window)
 
 # performant conversion to RGBAU8, implemted with a functor
 # in 0.5 anonymous functions offer the same speed, so this wouldn't be needed
@@ -310,7 +362,7 @@ function screen(robj)
 
     view(visualize((area, [Point2f0(0)]),
         color=RGBA{Float32}(0,0,0,0), stroke_color=RGBA{Float32}(0,0,0,0.7),
-        stroke_width=2f0),
+        stroke_width=3f0),
         camera=:fixed_pixel
     )
     robj.children[][:model] = translationmatrix(Vec3f0(15,15,0)-minimum(bb))

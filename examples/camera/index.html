@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Simon Danisch">
-        
+        <link rel="canonical" href="http://www.glvisualize.com/examples/camera/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
 
 	<title>Camera - GLVisualize Documentation</title>
@@ -78,57 +78,83 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                     
-                        <li class="active">
-                            <a href="./">Camera</a>
-                        </li>
+                        
+<li class="active">
+    <a href="./">Camera</a>
+</li>
+
                     
-                        <li >
-                            <a href="../compose/">Compose</a>
-                        </li>
+                        
+<li >
+    <a href="../compose/">Compose</a>
+</li>
+
                     
-                        <li >
-                            <a href="../imagelike/">Imagelike</a>
-                        </li>
+                        
+<li >
+    <a href="../imagelike/">Imagelike</a>
+</li>
+
                     
-                        <li >
-                            <a href="../interactive/">Interactive</a>
-                        </li>
+                        
+<li >
+    <a href="../interactive/">Interactive</a>
+</li>
+
                     
-                        <li >
-                            <a href="../introduction/">Introduction</a>
-                        </li>
+                        
+<li >
+    <a href="../introduction/">Introduction</a>
+</li>
+
                     
-                        <li >
-                            <a href="../lines/">Lines</a>
-                        </li>
+                        
+<li >
+    <a href="../lines/">Lines</a>
+</li>
+
                     
-                        <li >
-                            <a href="../meshes/">Meshes</a>
-                        </li>
+                        
+<li >
+    <a href="../meshes/">Meshes</a>
+</li>
+
                     
-                        <li >
-                            <a href="../particles/">Particles</a>
-                        </li>
+                        
+<li >
+    <a href="../particles/">Particles</a>
+</li>
+
                     
-                        <li >
-                            <a href="../screens/">Screens</a>
-                        </li>
+                        
+<li >
+    <a href="../screens/">Screens</a>
+</li>
+
                     
-                        <li >
-                            <a href="../sprites/">Sprites</a>
-                        </li>
+                        
+<li >
+    <a href="../sprites/">Sprites</a>
+</li>
+
                     
-                        <li >
-                            <a href="../surfaces/">Surfaces</a>
-                        </li>
+                        
+<li >
+    <a href="../surfaces/">Surfaces</a>
+</li>
+
                     
-                        <li >
-                            <a href="../text/">Text</a>
-                        </li>
+                        
+<li >
+    <a href="../text/">Text</a>
+</li>
+
                     
-                        <li >
-                            <a href="../volumes/">Volumes</a>
-                        </li>
+                        
+<li >
+    <a href="../volumes/">Volumes</a>
+</li>
+
                     
                     </ul>
                 </li>
@@ -176,9 +202,6 @@
         
     
         <li class="main "><a href="#camera">Camera</a></li>
-        
-    
-        <li class="main "><a href="#camera2">Camera2</a></li>
         
     
     </ul>
@@ -360,23 +383,7 @@ camera_points = visualize(
 )
 camera_path_line = visualize(camera_path, :lines)
 
-&quot;&quot;&quot;
-Copy function for a context. We only need to copy the uniform dict
-&quot;&quot;&quot;
-function copy(c::GLAbstraction.Context)
-    a = c.children[]
-    uniforms = Dict{Symbol, Any}([k=&gt;v for (k,v) in a.uniforms])
-    robj = RenderObject(
-        a.main,
-        uniforms,
-        a.vertexarray,
-        a.prerenderfunctions,
-        a.postrenderfunctions,
-        a.id,
-        a.boundingbox,
-    )
-    Context(robj)
-end
+
 
 # view everything on the appropriate screen.
 # we need to copy the cat, because view inserts the camera into the
@@ -395,48 +402,6 @@ view(camera_path_line, scene_screen, camera=:perspective)
 
 
 renderloop(window)
-
-</code></pre>
-
-<h1 id="camera2">Camera2</h1>
-<pre><code class="Julia">using GLVisualize, GLAbstraction, FileIO, GeometryTypes, Reactive
-
-w = glscreen()
-
-robj         = visualize(rand(Float32, 32,32), :surface)
-bb           = boundingbox(robj).value
-bb_width     = widths(bb)
-lower_corner = minimum(bb)
-middle       = lower_corner + (bb_width/2f0)
-lookatvec    = Signal(Vec3f0(0))
-eyeposition  = Signal(Vec3f0(2))
-
-ideal_eyepos = middle + (norm(bb_width)*Vec3f0(2,0,2))
-
-
-theta, translation = GLAbstraction.default_camera_control(
-    w.inputs, Signal(0.1f0), Signal(0.01f0)
-)
-upvector     = Signal(Vec3f0(0,0,1))
-
-cam = PerspectiveCamera(
-    theta,
-    translation,
-    lookatvec,
-    eyeposition,
-    upvector,
-    w.inputs[:window_area],
-
-    Signal(41f0), # Field of View
-    Signal(1f0),  # Min distance (clip distance)
-    Signal(100f0) # Max distance (clip distance)
-)
-
-w.cameras[:my_cam] = cam
-
-view(robj, camera=:my_cam)
-
-@async renderloop(w)
 
 </code></pre></div>
         </div>

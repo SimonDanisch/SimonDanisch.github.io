@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Simon Danisch">
-        
+        <link rel="canonical" href="http://www.glvisualize.com/examples/meshes/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
 
 	<title>Meshes - GLVisualize Documentation</title>
@@ -78,57 +78,83 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                     
-                        <li >
-                            <a href="../camera/">Camera</a>
-                        </li>
+                        
+<li >
+    <a href="../camera/">Camera</a>
+</li>
+
                     
-                        <li >
-                            <a href="../compose/">Compose</a>
-                        </li>
+                        
+<li >
+    <a href="../compose/">Compose</a>
+</li>
+
                     
-                        <li >
-                            <a href="../imagelike/">Imagelike</a>
-                        </li>
+                        
+<li >
+    <a href="../imagelike/">Imagelike</a>
+</li>
+
                     
-                        <li >
-                            <a href="../interactive/">Interactive</a>
-                        </li>
+                        
+<li >
+    <a href="../interactive/">Interactive</a>
+</li>
+
                     
-                        <li >
-                            <a href="../introduction/">Introduction</a>
-                        </li>
+                        
+<li >
+    <a href="../introduction/">Introduction</a>
+</li>
+
                     
-                        <li >
-                            <a href="../lines/">Lines</a>
-                        </li>
+                        
+<li >
+    <a href="../lines/">Lines</a>
+</li>
+
                     
-                        <li class="active">
-                            <a href="./">Meshes</a>
-                        </li>
+                        
+<li class="active">
+    <a href="./">Meshes</a>
+</li>
+
                     
-                        <li >
-                            <a href="../particles/">Particles</a>
-                        </li>
+                        
+<li >
+    <a href="../particles/">Particles</a>
+</li>
+
                     
-                        <li >
-                            <a href="../screens/">Screens</a>
-                        </li>
+                        
+<li >
+    <a href="../screens/">Screens</a>
+</li>
+
                     
-                        <li >
-                            <a href="../sprites/">Sprites</a>
-                        </li>
+                        
+<li >
+    <a href="../sprites/">Sprites</a>
+</li>
+
                     
-                        <li >
-                            <a href="../surfaces/">Surfaces</a>
-                        </li>
+                        
+<li >
+    <a href="../surfaces/">Surfaces</a>
+</li>
+
                     
-                        <li >
-                            <a href="../text/">Text</a>
-                        </li>
+                        
+<li >
+    <a href="../text/">Text</a>
+</li>
+
                     
-                        <li >
-                            <a href="../volumes/">Volumes</a>
-                        </li>
+                        
+<li >
+    <a href="../volumes/">Volumes</a>
+</li>
+
                     
                     </ul>
                 </li>
@@ -178,6 +204,9 @@
         <li class="main "><a href="#meshes-io">Meshes Io</a></li>
         
     
+        <li class="main "><a href="#vertexcolor">Vertexcolor</a></li>
+        
+    
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
@@ -209,17 +238,19 @@ colored_mesh = merge(meshes)
 view(visualize(colored_mesh), window)
 
 # one could also create a GLNormalAttributeMesh manually:
-colors = RGBA{U8}[RGBA{U8}(rand(), rand(), rand(), 1.0) for i=1:50]
 sphere = Sphere{Float32}(Point3f0(0), 2f0)
 # decompose decomposes a mesh or geometry into the primitive of the first argument
-vertices = decompose(Point3f0, sphere)
-faces = decompose(GLTriangle, sphere)
+vertices = decompose(Point3f0, sphere, 50)
+faces = decompose(GLTriangle, sphere, 50)
+
+# create a few colors, can be U8 or Float32
+colors = RGBA{U8}[RGBA{U8}(rand(), rand(), rand(), 1.) for i=1:5]
 # assign every vertice a random index into the color array (0-based indexes)
-attribute_ids = Float32[rand(0:49) for i=1:length(vertices)]
+attribute_id = rand(0f0:4f0, length(vertices))
 
 sphere_mesh = GLNormalAttributeMesh(
     vertices=vertices, faces=faces,
-    attributes=colors, attribute_id=attribute_ids
+    attributes=colors, attribute_id=attribute_id
 )
 
 # move the model a bit to the right
@@ -246,6 +277,32 @@ window = glscreen()
 msh = GLNormalMesh(loadasset(&quot;cat.obj&quot;))
 
 view(visualize(msh), window)
+
+renderloop(window)
+
+</code></pre>
+
+<h1 id="vertexcolor">Vertexcolor</h1>
+<p><img alt="Vertexcolor" src="../../../media/vertexcolor.png" /></p>
+<pre><code class="Julia">using GLVisualize, GeometryTypes, GLAbstraction, Colors
+
+window = glscreen()
+
+
+# one could also create a GLNormalAttributeMesh manually:
+sphere = Sphere{Float32}(Point3f0(0), 2f0)
+# decompose decomposes a mesh or geometry into the primitive of the first argument
+vertices = decompose(Point3f0, sphere, 50)
+faces = decompose(GLTriangle, sphere, 50)
+# create some colors for each vertex, must be Float32
+colors = RGBA{Float32}[RGBA{Float32}(rand(), rand(), rand(), 1.) for i=1:length(vertices)]
+
+sphere_mesh = GLNormalVertexcolorMesh(
+    vertices=vertices, faces=faces,
+    color=colors
+)
+
+view(visualize(sphere_mesh), window)
 
 renderloop(window)
 
