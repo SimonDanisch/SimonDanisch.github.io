@@ -223,8 +223,6 @@ end
 window = glscreen()
 timesignal = bounce(linspace(0f0,1f0,360))
 volumedata = volume_data(128)
-using NIfTI
-volumedata = niread(assetpath(&quot;brain.nii&quot;)).raw
 
 volume = visualize(volumedata, :mip)
 
